@@ -1,8 +1,66 @@
-*{
-    box-sizing: border-box;
+/* Conteneur du carrousel centré */
+.carousel-container {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    width: 100%;
+    padding: 50px 0;
 }
 
-.App{
+/* Carrousel */
+.carousel {
+    position: relative;
     max-width: 900px;
-    margin: 0 auto;
+    width: 100%;
+}
+
+/* Conteneur de chaque slide pour centrer l'image */
+.carousel .slide {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    height: 500px; /* Définir une hauteur fixe pour le carrousel */
+    position: relative;
+}
+
+/* Les autres styles restent inchangés */
+.carousel .thumbs {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 10px;
+}
+
+.carousel .thumb {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.carousel .thumb img {
+    width: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Image avec taille fixe */
+.carousel .slide img {
+    width: 1000px; /* Largeur fixe */
+    height: 600px; /* Hauteur fixe */
+    object-fit: cover; /* L'image est redimensionnée pour couvrir l'espace tout en conservant ses proportions */
+}
+
+.carousel .overlay {
+    width: 80%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10%;
+    padding: 0.4rem 1.5rem;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
+.carousel .overlay_title {
+    margin: 0.8rem 0 1rem 0;
 }

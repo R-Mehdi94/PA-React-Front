@@ -2,7 +2,6 @@
 import { FunctionComponent } from 'react'
 import Header from './components/Header'
 import Navbar from './components/Navbar'
-import './App.css'
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './components/Page-not-found'
 import React from 'react';
@@ -13,12 +12,12 @@ const App: FunctionComponent = () => {
     <React.StrictMode>
       <Router>
         <div className="App">
-          <Accueil />
           <Navbar />
+          
 
           <Routes>
             <Route path="/" element={<Header />} />
-            <Route path="/accueil" element={<Header />} />
+            <Route path="/accueil" element={<Accueil />} />
             <Route path="/assoEcaf" element={<AssoEcaf />} />
             <Route path="/don" element={<Don />} />
             <Route path="/adherer" element={<Adherer />} />
