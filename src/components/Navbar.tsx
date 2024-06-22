@@ -6,13 +6,14 @@ import { Link } from "react-router-dom";
 
 const Navbar: FunctionComponent = () => {
   return (
-    <nav className="nav">
+
+      <nav className="nav">
       <Link to='/' className="logo">
-        <img src={logo} width="300" height="300" alt="logo" />
+        <img src={logo} width="100" height="100" alt="logo" />
       </Link>
 
       <ul className="menu">
-        <li><Link to='/accueil'>Accueil</Link></li>
+        <li><Link to='/'>Accueil</Link></li>
         <li><Link to='/assoEcaf'>L'Association ECAF</Link></li>
         <li><Link to='/don'>Faire un don</Link></li>
         <li><Link to='/adherer'>Adherez à ECAF</Link></li>
@@ -21,6 +22,7 @@ const Navbar: FunctionComponent = () => {
         <li><Link to='/contact'>Nous contacter</Link></li>
       </ul>
     </nav>
+    
   );
 };
 

@@ -10,7 +10,7 @@
 /* Carrousel */
 .carousel {
     position: relative;
-    max-width: 900px;
+    max-width: 1200px; /* Augmentez la largeur maximale du carrousel */
     width: 100%;
 }
 
@@ -19,7 +19,7 @@
     display: flex;
     justify-content: center; /* Centre horizontalement */
     align-items: center; /* Centre verticalement */
-    height: 500px; /* Définir une hauteur fixe pour le carrousel */
+    height: 600px; /* Augmentez la hauteur fixe pour agrandir le carrousel */
     position: relative;
 }
 
@@ -42,10 +42,10 @@
     border-radius: 5px;
 }
 
-/* Image avec taille fixe */
+/* Image avec taille fixe augmentée */
 .carousel .slide img {
-    width: 1000px; /* Largeur fixe */
-    height: 600px; /* Hauteur fixe */
+    width: 1000px; /* Augmentez encore la largeur fixe */
+    height: 600px; /* Augmentez encore la hauteur fixe */
     object-fit: cover; /* L'image est redimensionnée pour couvrir l'espace tout en conservant ses proportions */
 }
 

@@ -3,7 +3,10 @@ import Slider from '../components/Slider.tsx'
 
 const Accueil: FunctionComponent = () => {
     return(
-        <Slider/> 
+        <>
+            <Slider/> 
+            <img src="../images/mission.png" alt="image" />
+        </>
     )}
 
 export default Accueil

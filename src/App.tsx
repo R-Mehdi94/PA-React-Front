@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './components/Page-not-found'
 import React from 'react';
 import Accueil from './pages/accueil';
+import './App.css';
 
 const App: FunctionComponent = () => {
   return (
@@ -16,9 +17,8 @@ const App: FunctionComponent = () => {
           
 
           <Routes>
-            <Route path="/" element={<Header />} />
-            <Route path="/accueil" element={<Accueil />} />
-            <Route path="/assoEcaf" element={<AssoEcaf />} />
+            <Route path="/" element={<Accueil />} />
+             <Route path="/assoEcaf" element={<AssoEcaf />} />
             <Route path="/don" element={<Don />} />
             <Route path="/adherer" element={<Adherer />} />
             <Route path="/projet" element={<Projet />} />

@@ -9,28 +9,28 @@ const Slider: FunctionComponent = () => {
     const datas = [
         {
             id: 1,
-            title: 'slider 1',
+            title: 'Commémoration 11 Octobre 1961',
             image: `${url}noie.jpg`,
-            text: "text 4"
+            text: 'ECAF organise la diffusion du film "ICI ON NOIE LES ALGERIENS", suivi par un Buffet et échange libre entre participants. Inscription obligatoire.'
         },
         {
             id: 2,
-            title: 'slider 2',
+            title: 'Pont avec l\'Algérie',
             image: `${url}conf.jpg`,
-            text: "text 4"
+            text: "En collaboration avec nos partenaires, nous vous aidons à préparer votre retour en Algérie."
         },
         {
             id: 3,
-            title: 'slider 3',
+            title: 'Event Vélo 3 eme édition !',
             image: `${url}event.jpg`,
-            text: "text 4"
+            text: "Venez nombreux à notre événement annuel de vélo, pour une bonne cause !"
 
         },
         {
             id: 4,
-            title: 'slider 4',
+            title: 'Accueil des Nouveaux Arrivants',
             image: `${url}visa.jpg`,
-            text: "text 4"
+            text: "L’association accompagne les étudiants dès l’obtention de leur visa, et en partenariat avec “Campus France Algérie“, elle organise à chaque rentrée universitaire une série de permanences d’accueil, d’information et d’orientation pour les des nouveaux arrivants."
         }
     ]
     return (
