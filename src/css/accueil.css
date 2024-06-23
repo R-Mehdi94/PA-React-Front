@@ -1,0 +1,43 @@
+.header p{
+    font-size: 1.2rem;
+} 
+
+.header-ul {
+    margin: 0 auto; /* Centre horizontalement */
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap; /* Permet le retour à la ligne */
+    justify-content: center; /* Centre les éléments horizontalement */
+    gap: 1rem;
+    padding: 0.5rem 1rem; /* Ajoutez du padding pour améliorer l'espacement */
+    max-width: 1500px; /* Limite la largeur du conteneur pour un meilleur centrage */
+}
+
+.header-ul li {
+    flex: 1 1 calc(50% - 1rem); /* Chaque élément prend 50% de la largeur moins l'espace entre les éléments */
+    box-sizing: border-box; /* Assure que le padding et la bordure sont inclus dans la largeur et la hauteur */
+    display: flex;
+    flex-direction: column; /* Assure que le contenu de chaque élément est empilé verticalement */
+    align-items: center; /* Centre le contenu de chaque élément horizontalement */
+    text-align: center; /* Centre le texte à l'intérieur des éléments */
+    padding: 1rem; /* Ajoute du padding autour du contenu des éléments */
+    color:black;
+    border-radius: 8px; 
+}
+
+.partietext {
+    text-align: center; /* Centre le texte */
+    color: black; /* Change la couleur du texte en blanc */
+    margin:  auto; /* Ajoute des marges pour centrer la div */
+    max-width: 1400px; /* Limite la largeur du conteneur pour un meilleur centrage */
+    padding: 1rem; /* Ajoute du padding pour améliorer l'espacement */
+}
+
+
+.partietext h1 {
+    margin-bottom: 3rem; /* Ajoute de l'espacement entre les paragraphes */
+}
+
+.partietext p {
+    margin-bottom: 3rem; /* Ajoute de l'espacement entre les paragraphes */
+}

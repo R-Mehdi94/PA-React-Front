@@ -43,11 +43,6 @@
 }
 
 /* Image avec taille fixe augmentée */
-.carousel .slide img {
-    width: 1000px; /* Augmentez encore la largeur fixe */
-    height: 600px; /* Augmentez encore la hauteur fixe */
-    object-fit: cover; /* L'image est redimensionnée pour couvrir l'espace tout en conservant ses proportions */
-}
 
 .carousel .overlay {
     width: 80%;
