@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AideProjetDemande, AutreDemande, Demande, EvenementDemande, ParrainageDemande } from '../types/demandeTypes';
 
 export interface User {
     numTel: string;
@@ -14,36 +15,73 @@ export interface User {
     estBenevole? : boolean;
     parrainId? : number;
   }
-
-
+  
+  interface GetUsersResponse {
+    Users: User[];
+    totalCount: number;
+  }
 
 
 const api = axios.create({
-  baseURL: 'http://localhost:3006/', // Remplacez par l'URL de votre API
+  baseURL: 'http://localhost:3000/', // Remplacez par l'URL de votre API
 });
 
-export const getUsers = async () : Promise<User[]> => {
-    try {
-        const response = await api.get('/users', { mode: 'no-cors' } as any ); // Ajoutez l'option mode: 'no-cors'
-        return response.data;
-      } catch (error) {
-        console.error('Error fetching data', error);
-        throw error;
-      }
-};
-
-export interface DocumentLink {
-  sasUrl: string;
-
-}
-export const getDocumentlien = async (blobName :string , token: string,iduser:number): Promise<DocumentLink> => {
+export const getUsers = async (): Promise<GetUsersResponse> => {
   try {
-    const response = await api.post(/generate-sas-url/${iduser}, 
-    { blobName , token }, 
-    { headers: { Authorization: Bearer ${token} } })
+    const response = await api.get('/users');
     return response.data;
   } catch (error) {
     console.error('Error fetching data', error);
     throw error;
   }
-}
+};
+
+export const submitDemande = async (demande: Demande): Promise<Demande> => {
+  try {
+      const response = await api.post('/demandes', demande);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting demande', error);
+      throw error;
+  }
+};
+
+export const submitAutreDemande = async (autredemande: AutreDemande): Promise<AutreDemande> => {
+  try {
+      const response = await api.post('/autre-demandes', autredemande);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting autredemande', error);
+      throw error;
+  }
+};
+
+export const submitAideProjet = async (aideProjetDemande: AideProjetDemande): Promise<AideProjetDemande> => {
+  try {
+      const response = await api.post('/aide-projet-demandes', aideProjetDemande);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting aideProjetDemande', error);
+      throw error;
+  }
+};
+
+export const submitEvenementDemande = async (evenementDemande: EvenementDemande): Promise<EvenementDemande> => {
+  try {
+      const response = await api.post('/evenement-demandes', evenementDemande);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting evenementDemande', error);
+      throw error;
+  }
+};
+
+export const submitParrainageDemande = async (parrainageDemande: ParrainageDemande): Promise<ParrainageDemande> => {
+  try {
+      const response = await api.post('/parrainage-demandes', parrainageDemande);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting parrainageDemande', error);
+      throw error;
+  }
+};

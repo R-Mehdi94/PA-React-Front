@@ -1,18 +1,25 @@
 import React from 'react';
 import { EvenementDemande } from '../../../types/demandeTypes';
 
-const EvenementDemandeForm: React.FC<{ onChange: (data: EvenementDemande) => void }> = ({ onChange }) => {
+interface Props {
+  onChange: (data: EvenementDemande) => void;
+}
+
+const EvenementDemandeForm: React.FC<Props> = ({ onChange }) => {
   const [data, setData] = React.useState<EvenementDemande>({
     titre: '',
     date: '',
     description: '',
-    lieu: ''
+    lieu: '',
+    demande: 0
+
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-    onChange({ ...data, [name]: value });
+    const newData = { ...data, [name]: value };
+    setData(newData);
+    onChange(newData);
   };
 
   return (

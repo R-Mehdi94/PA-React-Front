@@ -8,6 +8,7 @@ import React from 'react';
 import Accueil from './pages/accueil';
 import './App.css';
 import Demande from './pages/demande';
+import Don from './pages/don';
 
 const App: FunctionComponent = () => {
   return (
@@ -38,7 +39,6 @@ const App: FunctionComponent = () => {
 export default App;
 
 const AssoEcaf: FunctionComponent = () => <div>L'Association ECAF</div>;
-const Don: FunctionComponent = () => <div>Faire un don</div>;
 const Adherer: FunctionComponent = () => <div>Adherez à ECAF</div>;
 const Parainer: FunctionComponent = () => <div>Parrainage adherent</div>;
 const Contact: FunctionComponent = () => <div>Nous contacter</div>;

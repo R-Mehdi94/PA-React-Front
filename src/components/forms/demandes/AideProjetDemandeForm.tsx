@@ -1,18 +1,30 @@
 import React from 'react';
 import { AideProjetDemande } from '../../../types/demandeTypes';
 
-const AideProjetDemandeForm: React.FC<{ onChange: (data: AideProjetDemande) => void }> = ({ onChange }) => {
+
+
+interface Props {
+  onChange: (data: AideProjetDemande) => void;
+}
+
+const AideProjetDemandeForm: React.FC<Props> = ({ onChange }) => {
+  
+
+  
+  
   const [data, setData] = React.useState<AideProjetDemande>({
     titre: '',
     descriptionProjet: '',
     budget: 0,
-    deadline: ''
+    deadline: '',
+    demande: 0
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-    onChange({ ...data, [name]: value });
+    const newData = { ...data, [name]: value };
+    setData(newData);
+    onChange(newData);
   };
 
   return (

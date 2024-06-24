@@ -14,6 +14,7 @@ export interface AutreDemande {
   demandeId?: number;
   titre: string;
   description: string;
+  demande:number;
 }
 
 export interface EvenementDemande {
@@ -23,6 +24,7 @@ export interface EvenementDemande {
   date: string;
   description: string;
   lieu: string;
+  demande:number;
 }
 
 export interface AideProjetDemande {
@@ -32,11 +34,13 @@ export interface AideProjetDemande {
   descriptionProjet: string;
   budget?: number;
   deadline?: string;
+  demande:number;
 }
 
 export interface ParrainageDemande {
   id?: number;
-  parrainId?: number;
+  parrain?: number;
   demandeId?: number;
   detailsParrainage: string;
+  demande:number;
 }
