@@ -21,6 +21,37 @@ export interface User {
     totalCount: number;
   }
 
+export interface Visiteur {
+    email: string
+    nom: string
+    prenom: string
+    age: number
+    numTel: string
+    adresse: string
+    profession: string
+    estBenevole: boolean
+}
+
+export enum TypeTransaction {
+    Don = "Don",
+    PaiementCotisations = "Cotisation",
+    Inscription = "Inscription"
+}
+
+interface Transaction{
+  emailVisiteur: string
+  evenement?: number
+  montant: number
+  methodePaiement: string
+  type: TypeTransaction
+  dateTransaction?: Date
+}
+
+interface TransactionCree{
+  transactionCréé:  Transaction,
+  clientSecret:string
+}
+
 
 const api = axios.create({
   baseURL: 'http://localhost:3000/', // Remplacez par l'URL de votre API
@@ -33,6 +64,26 @@ export const getUsers = async (): Promise<GetUsersResponse> => {
   } catch (error) {
     console.error('Error fetching data', error);
     throw error;
+  }
+};
+
+export const createVisiteur= async (visiteur:Visiteur): Promise<Visiteur> => {
+  try {
+      const response = await api.post('/visiteurs', visiteur);
+      return response.data;
+  } catch (error) {
+      console.error('Error creating donation', error);
+      throw error;
+  }
+};
+
+export const createTransaction = async (transaction:Transaction): Promise<TransactionCree> => {
+  try {
+      const response = await api.post('/transactions', transaction);
+      return response.data;
+  } catch (error) {
+      console.error('Error creating donation', error);
+      throw error;
   }
 };
 
