@@ -15,6 +15,7 @@ const Navbar: FunctionComponent = () => {
       <ul className="menu">
         <li><Link to='/'>Accueil</Link></li>
         <li><Link to='/assoEcaf'>L'Association ECAF</Link></li>
+        <li><Link to='/evenement'>Evenement</Link></li>
         <li><Link to='/don'>Faire un don</Link></li>
         <li><Link to='/adherer'>Adherez à ECAF</Link></li>
         <li><Link to='/demande'>Une demande ?</Link></li>

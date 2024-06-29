@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AideProjetDemande, AutreDemande, Demande, EvenementDemande, ParrainageDemande } from '../types/demandeTypes';
+import { AideProjetDemande, AutreDemande, Demande, DemandeType, EvenementDemande, ParrainageDemande } from '../types/demandeTypes';
 
 export interface User {
     numTel: string;
@@ -16,10 +16,12 @@ export interface User {
     parrainId? : number;
   }
   
-  interface GetUsersResponse {
+ export interface GetUsersResponse {
     Users: User[];
     totalCount: number;
   }
+
+
 
 export interface Visiteur {
     email: string
@@ -38,7 +40,7 @@ export enum TypeTransaction {
     Inscription = "Inscription"
 }
 
-interface Transaction{
+export interface Transaction{
   emailVisiteur: string
   evenement?: number
   montant: number
@@ -47,14 +49,60 @@ interface Transaction{
   dateTransaction?: Date
 }
 
-interface TransactionCree{
+export interface TransactionCree{
   transactionCréé:  Transaction,
   clientSecret:string
+}
+
+export interface EmailAdherer{
+  mail:string,
+  prenom:string
+}
+
+export interface EmailDon{
+  mail:string,
+  montant:number
+}
+
+export interface EmailDemande{
+  mail:string,
+  typeDemande:DemandeType
+}
+
+export interface Evenement{
+  id:number
+  nom: string
+  date: Date
+  description: string
+  lieu: string
+  estReserve: boolean
+  nbPlace: number
+}
+
+export interface getEvenemntsResponse{
+  Evenements: Evenement[]
+  totalCount: number
+}
+
+export interface Inscription{
+  emailVisiteur:string,
+  evenement:number
+}
+
+export interface EmailInscription{
+  mail:string,
+  evenement:string,
+  date:Date,
+  lieu:string
 }
 
 
 const api = axios.create({
   baseURL: 'http://localhost:3000/', // Remplacez par l'URL de votre API
+});
+
+const n8n = axios.create({
+  baseURL: 'https://rmehdi.app.n8n.cloud/webhook/', // Remplacez par l'URL de votre API
 });
 
 export const getUsers = async (): Promise<GetUsersResponse> => {
@@ -64,6 +112,26 @@ export const getUsers = async (): Promise<GetUsersResponse> => {
   } catch (error) {
     console.error('Error fetching data', error);
     throw error;
+  }
+};
+
+export const getEvenemnts = async (): Promise<getEvenemntsResponse> => {
+  try {
+    const response = await api.get('/evenements');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data', error);
+    throw error;
+  }
+};
+
+export const createInscription= async (inscription:Inscription): Promise<Inscription> => {
+  try {
+      const response = await api.post('/inscriptions', inscription);
+      return response.data;
+  } catch (error) {
+      console.error('Error creating donation', error);
+      throw error;
   }
 };
 
@@ -133,6 +201,46 @@ export const submitParrainageDemande = async (parrainageDemande: ParrainageDeman
       return response.data;
   } catch (error) {
       console.error('Error submitting parrainageDemande', error);
+      throw error;
+  }
+};
+
+export const sendEmailDon = async (emailDon: EmailDon): Promise<EmailDon> => {
+  try {
+      const response = await n8n.post('/96fba311-2a74-4e52-845d-c4c25f8983b0', emailDon);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting email donation', error);
+      throw error;
+  }
+};
+
+export const sendEmailAdherer = async (emailAdherer: EmailAdherer): Promise<EmailAdherer> => {
+  try {
+      const response = await n8n.post('/a4084024-bdac-4826-abf0-aac5e3bdc602', emailAdherer);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting email adherer', error);
+      throw error;
+  }
+};
+
+export const sendEmailDemande = async (emailDemande: EmailDemande): Promise<EmailDemande> => {
+  try {
+      const response = await n8n.post('/73933007-8e4d-41dd-9665-f0094182f952', emailDemande);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting email demande', error);
+      throw error;
+  }
+};
+
+export const sendEmailInscription = async (emailInscription: EmailInscription): Promise<EmailInscription> => {
+  try {
+      const response = await n8n.post('/2ee7923b-d06e-4fd8-ab10-70dd4688c4f0', emailInscription);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting email demande', error);
       throw error;
   }
 };

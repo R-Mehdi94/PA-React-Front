@@ -4,7 +4,7 @@ import AutreDemandeForm from "./AutreDemandeForm";
 import AideProjetDemandeForm from "./AideProjetDemandeForm";
 import EvenementDemandeForm from "./EvenementDemandeForm";
 import ParrainageDemandeForm from "./ParrainageDemandeForm";
-import { submitAideProjet, submitAutreDemande, submitDemande, submitEvenementDemande, submitParrainageDemande } from "../../../api/apiService";
+import { sendEmailDemande, submitAideProjet, submitAutreDemande, submitDemande, submitEvenementDemande, submitParrainageDemande } from "../../../api/apiService";
 import  './../../../css/demandeForm.css';
 
 const DemandeForm: React.FC = () => {
@@ -47,7 +47,6 @@ const DemandeForm: React.FC = () => {
       try {
         const response = await submitDemande(demande);
         specificData.demande = response.id;
-        console.log(specificData)
         switch(demande.type){
           case 'Projet':
             await submitAideProjet(specificData);
@@ -62,6 +61,11 @@ const DemandeForm: React.FC = () => {
             await submitAutreDemande(specificData);
             break;
         } 
+        const demandeEmail={
+          mail: demande.emailVisiteur,
+          typeDemande: demande.type
+        }
+        await sendEmailDemande(demandeEmail)
         setResponseMessage('Demande soumise avec succès !');
         console.log('Response:', response);
       } catch (error) {

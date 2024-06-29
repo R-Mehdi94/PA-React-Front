@@ -1,6 +1,6 @@
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
-import { TypeTransaction, createTransaction, createVisiteur } from "../api/apiService";
+import { TypeTransaction, createTransaction, createVisiteur, sendEmailAdherer } from "../api/apiService";
 import '../css/subcription.css';
 
 export interface Visiteur {
@@ -83,12 +83,14 @@ const Adherer: React.FC = () => {
 
             // Vérifiez l'état du PaymentIntent avant de tenter de le confirmer
             const paymentIntent = await stripe.retrievePaymentIntent(clientSecret);
+            const emailSub = {
+                mail: visiteur.email,
+                prenom: visiteur.prenom,
+              };
             if (paymentIntent.paymentIntent?.status === 'succeeded') {
                 setSuccess("Subscription successful!");
-
-                // Appel de l'API pour créer le visiteur après un paiement réussi
                 await createVisiteur(visiteur);
-
+                await sendEmailAdherer(emailSub);
                 return;
             }
 
@@ -100,9 +102,8 @@ const Adherer: React.FC = () => {
                 setError(paymentResult.error.message || "An error occurred while confirming the payment.");
             } else if (paymentResult.paymentIntent && paymentResult.paymentIntent.status === 'succeeded') {
                 setSuccess("Subscription successful!");
-
-                // Appel de l'API pour créer le visiteur après un paiement réussi
                 await createVisiteur(visiteur);
+                await sendEmailAdherer(emailSub);
             } else {
                 setError("An unexpected error occurred. Please try again.");
             }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-import { TypeTransaction, createTransaction } from "../api/apiService";
+import { TypeTransaction, createTransaction, sendEmailDon } from "../api/apiService";
 import '../css/don.css'
 const Don: React.FC = () => {
   const stripe = useStripe();
@@ -10,13 +10,6 @@ const Don: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Validation pour s'assurer que la saisie est un nombre
-    if (!isNaN(Number(value))) {
-      setAmount(+value);
-    }
-  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -57,7 +50,13 @@ const Don: React.FC = () => {
 
       // Vérifiez l'état du PaymentIntent avant de tenter de le confirmer
       const paymentIntent = await stripe.retrievePaymentIntent(clientSecret);
+      const emailDon = {
+        mail: email,
+        montant: amount,
+      };
+
       if (paymentIntent.paymentIntent?.status === 'succeeded') {
+        await sendEmailDon(emailDon);
         setSuccess("Donation successful!");
         return;
       }
@@ -70,6 +69,7 @@ const Don: React.FC = () => {
         setError(paymentResult.error.message || "An error occurred while confirming the payment.");
       } else if (paymentResult.paymentIntent && paymentResult.paymentIntent.status === 'succeeded') {
         setSuccess("Donation successful!");
+        await sendEmailDon(emailDon);
       } else {
         setError("An unexpected error occurred. Please try again.");
       }
