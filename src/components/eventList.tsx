@@ -83,11 +83,11 @@ const EventList: React.FC = () => {
           {evenements.map((evenement) => (
             <li key={evenement.id} className="event-card">
               <h2>{evenement.nom}</h2>
-              <p>Date: {new Date(evenement.date).toLocaleDateString()}</p>
-              <p>Lieu: {evenement.lieu}</p>
+              <p>Date : {new Date(evenement.date).toLocaleDateString()}</p>
+              <p>Lieu : {evenement.lieu}</p>
               <p>{evenement.description}</p>
-              <p>Places disponibles: {evenement.nbPlace}</p>
-              <p>Réservation: {evenement.estReserve ? 'Oui' : 'Non'}</p>
+              <p>Places disponibles : {evenement.nbPlace}</p>
+              <p>Réservé au membre adherent : {evenement.estReserve ? 'Oui' : 'Non'}</p>
               {evenement.nbPlace === 0 ? (
                 <button className="disabled-button">Événement complet</button>
               ) : (
