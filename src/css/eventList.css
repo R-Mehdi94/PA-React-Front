@@ -75,4 +75,14 @@
     margin-bottom: 20px;
     text-align: center;
   }
+
+.error-message {
+    background-color: #d4edda;
+    color: #571515;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
   

@@ -12,6 +12,9 @@ const Don: React.FC = () => {
 
 
   const handleSubmit = async (event: React.FormEvent) => {
+
+    setError(null);
+    setSuccess(null);
     event.preventDefault();
 
     if (!stripe || !elements) {
@@ -26,6 +29,7 @@ const Don: React.FC = () => {
     }
 
     try {
+
       const paymentMethodResult = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,

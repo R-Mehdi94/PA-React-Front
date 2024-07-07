@@ -42,6 +42,7 @@ const DemandeForm: React.FC = () => {
     };
   
     const handleSubmit = async (e: React.FormEvent) => {
+      setResponseMessage(null);
       e.preventDefault();
 
       try {

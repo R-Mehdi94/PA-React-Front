@@ -96,7 +96,19 @@ export interface EmailInscription{
   lieu:string
 }
 
+export interface VerifEmail {
+  emailVisiteur: string
+  evenement: number
+}
 
+export interface VerifVisiteur {
+  email: string
+  numTel: string
+}
+export interface DeleteInscriptionValidationRequest {
+  emailVisiteur: string
+  evenement: number
+}
 const api = axios.create({
   baseURL: 'http://localhost:3000/', // Remplacez par l'URL de votre API
 });
@@ -135,10 +147,10 @@ export const createInscription= async (inscription:Inscription): Promise<Inscrip
   }
 };
 
-export const createVisiteur= async (visiteur:Visiteur): Promise<Visiteur> => {
+export const createVisiteur= async (visiteur:Visiteur) => {
   try {
       const response = await api.post('/visiteurs', visiteur);
-      return response.data;
+      return response;
   } catch (error) {
       console.error('Error creating donation', error);
       throw error;
@@ -241,6 +253,59 @@ export const sendEmailInscription = async (emailInscription: EmailInscription): 
       return response.data;
   } catch (error) {
       console.error('Error submitting email demande', error);
+      throw error;
+  }
+};
+
+export const getEmails = async (): Promise<any> => {
+  try {
+      const response = await api.post('/visiteursEmail');
+      return response.data;
+
+  } catch (error) {
+      console.error('Error submitting email demande', error);
+      throw error;
+  }
+};
+
+export const sendEmailInscriptionAdherent = async (emailInscription: EmailInscription): Promise<EmailInscription> => {
+  try {
+      const emails = await getEmails()
+      console.log(emails[0].emails)
+      const response = await n8n.post('/a7f0a253-cc6d-4b77-8111-35746db35f99', emailInscription);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting email demande', error);
+      throw error;
+  }
+};
+
+export const verifEmail = async (verifEmail: VerifEmail): Promise<VerifEmail> => {
+  try {
+      const response = await api.post('/verifEmail', verifEmail);
+      return response.data;
+  } catch (error) {
+      console.error('Error verifEmail', error);
+      throw error;
+  }
+};
+
+export const verifVisiteur = async (verifVisiteur: VerifVisiteur): Promise<VerifVisiteur> => {
+  try {
+      const response = await api.post('/verifVisiteur', verifVisiteur);
+      return response.data;
+  } catch (error) {
+      console.error('Error verifDemande', error);
+      throw error;
+  }
+};
+
+export const removeInscription = async (DeleteInscriptionValidationRequest: DeleteInscriptionValidationRequest): Promise<VerifVisiteur> => {
+  try {
+      const response = await api.post('/deleteInscriptions', DeleteInscriptionValidationRequest);
+      return response.data;
+  } catch (error) {
+      console.error('Error deleteInscriptions', error);
       throw error;
   }
 };

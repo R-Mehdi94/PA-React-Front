@@ -46,6 +46,9 @@ const Adherer: React.FC = () => {
     };
 
     const handleSubmit = async (event: React.FormEvent) => {
+        setError(null);
+        setSuccess(null);
+
         event.preventDefault();
 
         if (!stripe || !elements) {
@@ -86,10 +89,16 @@ const Adherer: React.FC = () => {
             const emailSub = {
                 mail: visiteur.email,
                 prenom: visiteur.prenom,
-              };
+            };
+
+            const responseVisiteur = await createVisiteur(visiteur);
+            if(responseVisiteur.status === 209){
+                setError("Le mail est déjà utilisé.");
+                return;
+            }
+
             if (paymentIntent.paymentIntent?.status === 'succeeded') {
                 setSuccess("Subscription successful!");
-                await createVisiteur(visiteur);
                 await sendEmailAdherer(emailSub);
                 return;
             }
@@ -102,7 +111,6 @@ const Adherer: React.FC = () => {
                 setError(paymentResult.error.message || "An error occurred while confirming the payment.");
             } else if (paymentResult.paymentIntent && paymentResult.paymentIntent.status === 'succeeded') {
                 setSuccess("Subscription successful!");
-                await createVisiteur(visiteur);
                 await sendEmailAdherer(emailSub);
             } else {
                 setError("An unexpected error occurred. Please try again.");
