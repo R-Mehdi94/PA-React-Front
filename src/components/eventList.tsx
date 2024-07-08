@@ -48,24 +48,29 @@ const EventList: React.FC = () => {
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    if (evenements.find(e => e.id === selectedEventId)?.estReserve as boolean) {
+    setError(null);
+    setConfirmationMessage(null);
+    e.preventDefault();
+
+    const estReserve = evenements.find(e => e.id === selectedEventId)?.estReserve as boolean
+    if (estReserve) {
       const verifVisiteurConst = {
         email: email,
         numTel: phone,
       };
       try {
         const verif = await verifVisiteur(verifVisiteurConst);
-        if (verif.response === "Visiteur non existant") {
+        if (verif === "Visiteur non existant") {
           setError('Adherent non trouvé, veuillez vérifier vos informations');
-          return; // Ajoutez cette ligne pour arrêter l'exécution de la fonction
+          return;
         }
+
       } catch (error) {
         console.error('Error verifying visitor', error);
         throw error;
       }
     }
 
-    e.preventDefault();
     const inscription = {
       emailVisiteur: email,
       evenement: selectedEventId as number,
@@ -125,7 +130,7 @@ const EventList: React.FC = () => {
       };
       try {
         const verif = await verifVisiteur(verifVisiteurConst);
-        if (verif.response === "Visiteur non existant") {
+        if (verif === "Visiteur non existant") {
           setError('Adherent non trouvé, veuillez vérifier vos informations');
           return;
         }

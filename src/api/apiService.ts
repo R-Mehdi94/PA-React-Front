@@ -293,7 +293,7 @@ export const verifEmail = async (verifEmail: VerifEmail): Promise<VerifEmail> =>
 export const verifVisiteur = async (verifVisiteur: VerifVisiteur): Promise<VerifVisiteur> => {
   try {
       const response = await api.post('/verifVisiteur', verifVisiteur);
-      return response.data;
+      return response.data.response;
   } catch (error) {
       console.error('Error verifDemande', error);
       throw error;
