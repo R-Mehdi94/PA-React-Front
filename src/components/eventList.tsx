@@ -60,6 +60,7 @@ const EventList: React.FC = () => {
       };
       try {
         const verif = await verifVisiteur(verifVisiteurConst);
+        // @ts-ignore
         if (verif === "Visiteur non existant") {
           setError('Adherent non trouvé, veuillez vérifier vos informations');
           return;
@@ -77,6 +78,7 @@ const EventList: React.FC = () => {
     };
     try {
       const verif = await verifEmail({ emailVisiteur: email, evenement: selectedEventId as number });
+      // @ts-ignore
       if (verif.response === "Email inscrit") {
         setError('Vous êtes déjà inscrit à cet événement.');
         return;
@@ -130,6 +132,7 @@ const EventList: React.FC = () => {
       };
       try {
         const verif = await verifVisiteur(verifVisiteurConst);
+        // @ts-ignore
         if (verif === "Visiteur non existant") {
           setError('Adherent non trouvé, veuillez vérifier vos informations');
           return;
@@ -142,6 +145,7 @@ const EventList: React.FC = () => {
 
     try {
       const verif = await verifEmail({ emailVisiteur: unsubscribeEmail, evenement: selectedUnsubscribeEventId as number });
+      // @ts-ignore
       if (verif.response === "Email non inscrit") {
         setError('Inscription non trouvé, veuillez vérifier vos informations');
         return;
