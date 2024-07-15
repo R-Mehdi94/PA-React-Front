@@ -11,6 +11,7 @@ import StripeProvider from './components/StripeProvider';
 import Adherer from './pages/subscription';
 import Evenement from './pages/evenement';
 
+
 const App: FunctionComponent = () => {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
@@ -27,13 +28,10 @@ const App: FunctionComponent = () => {
           <StripeProvider>
             <Routes>
               <Route path="/" element={<Accueil />} />
-              <Route path="/assoEcaf" element={<AssoEcaf />} />
               <Route path="/evenement" element={<Evenement />} />
               <Route path="/don" element={<Don />} />
               <Route path="/adherer" element={<Adherer />} />
               <Route path="/demande" element={<Demande />} />
-              <Route path="/parainer" element={<Parainer />} />
-              <Route path="/contact" element={<Contact />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </StripeProvider>
@@ -60,6 +58,4 @@ const App: FunctionComponent = () => {
 
 export default App;
 
-const AssoEcaf: FunctionComponent = () => <div>L'Association ECAF</div>;
-const Parainer: FunctionComponent = () => <div>Parrainage adherent</div>;
-const Contact: FunctionComponent = () => <div>Nous contacter</div>;
+
