@@ -35,6 +35,7 @@ const EventList: React.FC = () => {
 
   const handleSignUpClick = (eventId: number) => {
     setSelectedEventId(eventId);
+    setSelectedUnsubscribeEventId(null); // Clear unsubscribe selection
     setConfirmationMessage(null);
     setError(null);
   };
@@ -48,6 +49,7 @@ const EventList: React.FC = () => {
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     setError(null);
     setConfirmationMessage(null);
     e.preventDefault();
@@ -108,6 +110,7 @@ const EventList: React.FC = () => {
 
   const handleUnsubscribeClick = (eventId: number) => {
     setSelectedUnsubscribeEventId(eventId);
+    setSelectedEventId(null); // Clear sign-up selection
     setConfirmationMessage(null);
     setError(null);
   };
@@ -121,6 +124,7 @@ const EventList: React.FC = () => {
   };
 
   const handleUnsubscribeFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     e.preventDefault();
 
     const evenement = evenements.find(e => e.id === selectedUnsubscribeEventId)?.estReserve as boolean;
@@ -174,7 +178,16 @@ const EventList: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    
+    return <center>
+      <section className="dots-container">
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
+      </section>
+    </center>
   }
 
   return (
@@ -194,7 +207,10 @@ const EventList: React.FC = () => {
             {evenement.nbPlace === 0 ? (
               <button className="disabled-button">Événement complet</button>
             ) : (
-              <button className="signup-button" onClick={() => handleSignUpClick(evenement.id)}>Inscription</button>
+              <>
+                <button className="subscribe-button" onClick={() => handleSignUpClick(evenement.id)}>Inscription</button>
+                <button className="unsubscribe-button" onClick={() => handleUnsubscribeClick(evenement.id)}>Désinscription</button>
+              </>
             )}
             {selectedEventId === evenement.id && (
               <form onSubmit={handleFormSubmit} className="signup-form">
@@ -216,11 +232,6 @@ const EventList: React.FC = () => {
                 )}
                 <button type="submit" className="submit-button">Valider</button>
               </form>
-            )}
-            {selectedEventId !== evenement.id && (
-              <button className="unsubscribe-button" onClick={() => handleUnsubscribeClick(evenement.id)}>
-                Désinscription
-              </button>
             )}
             {selectedUnsubscribeEventId === evenement.id && (
               <form onSubmit={handleUnsubscribeFormSubmit} className="unsubscribe-form">

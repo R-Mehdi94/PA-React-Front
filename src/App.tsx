@@ -10,6 +10,8 @@ import Don from './pages/don';
 import StripeProvider from './components/StripeProvider';
 import Adherer from './pages/subscription';
 import Evenement from './pages/evenement';
+import PresentationPage from './pages/presentationPage';
+import ContactPage from './pages/contact';
 
 
 const App: FunctionComponent = () => {
@@ -28,6 +30,8 @@ const App: FunctionComponent = () => {
           <StripeProvider>
             <Routes>
               <Route path="/" element={<Accueil />} />
+              <Route path="assoEcaf" element={<PresentationPage />} />
+              <Route path="/contact" element={<ContactPage />} />
               <Route path="/evenement" element={<Evenement />} />
               <Route path="/don" element={<Don />} />
               <Route path="/adherer" element={<Adherer />} />

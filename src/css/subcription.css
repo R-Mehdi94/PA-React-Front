@@ -45,7 +45,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #669760;
 }
 
 .response-message {
@@ -73,6 +73,10 @@ button:hover {
   margin-bottom: 0.5rem;
 }
 
-.radio-group input {
+.radio-group input[type="radio"] {
   margin-right: 0.5rem;
+}
+
+.radio-group span {
+  margin-left: 0.25rem;
 }

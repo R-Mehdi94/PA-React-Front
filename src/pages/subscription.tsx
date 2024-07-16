@@ -52,13 +52,13 @@ const Adherer: React.FC = () => {
         event.preventDefault();
 
         if (!stripe || !elements) {
-            setError("Stripe has not been properly initialized.");
+            setError("Stripe n'a pas été correctement initialisé.");
             return;
         }
 
         const cardElement = elements.getElement(CardElement);
         if (!cardElement) {
-            setError("Card Element is not available.");
+            setError("L'élément de carte n'est pas disponible.");
             return;
         }
 
@@ -69,7 +69,7 @@ const Adherer: React.FC = () => {
             });
 
             if (paymentMethodResult.error) {
-                setError(paymentMethodResult.error.message || "An error occurred while creating the payment method.");
+                setError(paymentMethodResult.error.message || "Une erreur s'est produite lors de la création du mode de paiement.");
                 return;
             }
 
@@ -93,12 +93,12 @@ const Adherer: React.FC = () => {
 
             const responseVisiteur = await createVisiteur(visiteur);
             if(responseVisiteur.status === 209){
-                setError("Le mail est déjà utilisé.");
+                setError("L'email est déjà utilisé.");
                 return;
             }
 
             if (paymentIntent.paymentIntent?.status === 'succeeded') {
-                setSuccess("Subscription successful!");
+                setSuccess("Inscription réussie !");
                 await sendEmailAdherer(emailSub);
                 return;
             }
@@ -108,15 +108,15 @@ const Adherer: React.FC = () => {
             });
 
             if (paymentResult.error) {
-                setError(paymentResult.error.message || "An error occurred while confirming the payment.");
+                setError(paymentResult.error.message || "Une erreur s'est produite lors de la confirmation du paiement.");
             } else if (paymentResult.paymentIntent && paymentResult.paymentIntent.status === 'succeeded') {
-                setSuccess("Subscription successful!");
+                setSuccess("Inscription réussie !");
                 await sendEmailAdherer(emailSub);
             } else {
-                setError("An unexpected error occurred. Please try again.");
+                setError("Une erreur inattendue est apparue. Veuillez réessayer.");
             }
         } catch (error: any) {
-            setError(error.response ? error.response.data.error.message : error.message || "An internal error occurred.");
+            setError(error.response ? error.response.data.error.message : error.message || "Une erreur interne a eu lieu.");
             console.error("Payment Error:", error.response ? error.response.data : error);
         }
     };
@@ -136,7 +136,7 @@ const Adherer: React.FC = () => {
                             type="email"
                             value={visiteur.email}
                             onChange={handleInputChange}
-                            placeholder="Enter your email"
+                            placeholder="Entrer votre email"
                         />
                     </div>
                     <div className="form-group">
@@ -147,7 +147,7 @@ const Adherer: React.FC = () => {
                             type="text"
                             value={visiteur.nom}
                             onChange={handleInputChange}
-                            placeholder="Enter your last name"
+                            placeholder="Entrer votre nom"
                         />
                     </div>
                     <div className="form-group">
@@ -158,7 +158,7 @@ const Adherer: React.FC = () => {
                             type="text"
                             value={visiteur.prenom}
                             onChange={handleInputChange}
-                            placeholder="Enter your first name"
+                            placeholder="Entrez votre prénom"
                         />
                     </div>
                     <div className="form-group">
@@ -169,7 +169,7 @@ const Adherer: React.FC = () => {
                             type="number"
                             value={visiteur.age}
                             onChange={handleInputChange}
-                            placeholder="Enter your age"
+                            placeholder="Entrer votre âge"
                         />
                     </div>
                     <div className="form-group">
@@ -180,7 +180,7 @@ const Adherer: React.FC = () => {
                             type="text"
                             value={visiteur.numTel}
                             onChange={handleInputChange}
-                            placeholder="Enter your phone number"
+                            placeholder="Entrer votre numéro de téléphone"
                         />
                     </div>
                     <div className="form-group">
@@ -190,7 +190,7 @@ const Adherer: React.FC = () => {
                             name="adresse"
                             value={visiteur.adresse}
                             onChange={handleInputChange}
-                            placeholder="Enter your address"
+                            placeholder="Entrer votre adresse"
                         />
                     </div>
                     <div className="form-group">
@@ -201,7 +201,7 @@ const Adherer: React.FC = () => {
                             type="text"
                             value={visiteur.profession}
                             onChange={handleInputChange}
-                            placeholder="Enter your profession"
+                            placeholder="Entrer votre profession"
                         />
                     </div>
                     <div className="form-group">
@@ -218,7 +218,7 @@ const Adherer: React.FC = () => {
                     </div>
                     <div className="form-group">
                         <label>Membership Type</label>
-                        <div className="radio-group">
+                        <div >
                             <label>
                                 <input
                                     type="radio"
@@ -252,7 +252,7 @@ const Adherer: React.FC = () => {
                         <label>Card Details</label>
                         <CardElement className="card-element" />
                     </div>
-                    <button type="submit" disabled={!stripe}>Subscribe</button>
+                    <button type="submit" disabled={!stripe}>S'inscrire</button>
                     {error && <div className="response-message error">{error}</div>}
                     {success && <div className="response-message success">{success}</div>}
                 </form>

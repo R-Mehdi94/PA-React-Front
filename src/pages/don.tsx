@@ -24,7 +24,7 @@ const Don: React.FC = () => {
 
     const cardElement = elements.getElement(CardElement);
     if (!cardElement) {
-      setError("Card Element is not available.");
+      setError("L'élément de carte n'est pas disponible.");
       return;
     }
 
@@ -36,7 +36,7 @@ const Don: React.FC = () => {
       });
 
       if (paymentMethodResult.error) {
-        setError(paymentMethodResult.error.message || "An error occurred while creating the payment method.");
+        setError(paymentMethodResult.error.message || "Une erreur s'est produite lors de la création du mode de paiement.");
         return;
       }
 
@@ -61,7 +61,7 @@ const Don: React.FC = () => {
 
       if (paymentIntent.paymentIntent?.status === 'succeeded') {
         await sendEmailDon(emailDon);
-        setSuccess("Donation successful!");
+        setSuccess("Don réussi !");
         return;
       }
 
@@ -70,15 +70,15 @@ const Don: React.FC = () => {
       });
 
       if (paymentResult.error) {
-        setError(paymentResult.error.message || "An error occurred while confirming the payment.");
+        setError(paymentResult.error.message || "Une erreur s'est produite lors de la confirmation du paiement.");
       } else if (paymentResult.paymentIntent && paymentResult.paymentIntent.status === 'succeeded') {
-        setSuccess("Donation successful!");
+        setSuccess("Don réussi !");
         await sendEmailDon(emailDon);
       } else {
-        setError("An unexpected error occurred. Please try again.");
+        setError("Une erreur inattendue est apparue. Veuillez réessayer.");
       }
     } catch (error: any) {
-      setError(error.response ? error.response.data.error.message : error.message || "An internal error occurred.");
+      setError(error.response ? error.response.data.error.message : error.message || "Une erreur interne a eu lieu.");
       console.error("Payment Error:", error.response ? error.response.data : error);
     }
   };
@@ -98,24 +98,23 @@ const Don: React.FC = () => {
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
-              placeholder="Enter your email" 
+              placeholder="Entrer votre email" 
             />
           </div>
           <div className="form-group">
-            <label htmlFor="amount">Donation Amount</label>
+            <label htmlFor="amount">Montant du don</label>
             <input 
               id="amount"
               type="number" 
-              value={amount} 
               onChange={(e) => setAmount(Number(e.target.value))} 
-              placeholder="Enter donation amount" 
+              placeholder="Rentrer le montant" 
             />
           </div>
           <div className="form-group">
-            <label>Card Details</label>
+            <label>Information de la carte</label>
             <CardElement className="card-element" />
           </div>
-          <button type="submit" disabled={!stripe}>Donate</button>
+          <button type="submit" disabled={!stripe}>Faire un don !</button>
           {error && <div className="response-message-error">{error}</div>}
           {success && <div className="response-message-success">{success}</div>}
         </form>

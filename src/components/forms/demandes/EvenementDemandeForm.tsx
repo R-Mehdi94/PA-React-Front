@@ -26,7 +26,7 @@ const EvenementDemandeForm: React.FC<Props> = ({ onChange }) => {
     <>
       <label>
         Titre:
-        <input type="text" name="titre" value={data.titre} onChange={handleInputChange} required />
+        <input type="text" name="titre" value={data.titre} onChange={handleInputChange} required placeholder="Rentrer le titre"/>
       </label>
       <label>
         Date:
@@ -34,11 +34,11 @@ const EvenementDemandeForm: React.FC<Props> = ({ onChange }) => {
       </label>
       <label>
         Description:
-        <textarea name="description" value={data.description} onChange={handleInputChange} required />
+        <textarea name="description" value={data.description} onChange={handleInputChange} required placeholder="Description de l'évenement"/>
       </label>
       <label>
         Lieu:
-        <input type="text" name="lieu" value={data.lieu} onChange={handleInputChange} required />
+        <input type="text" name="lieu" value={data.lieu} onChange={handleInputChange} required placeholder="Lieu de l'événement"/>
       </label>
     </>
   );

@@ -31,11 +31,11 @@ const AideProjetDemandeForm: React.FC<Props> = ({ onChange }) => {
     <>
       <label>
         Titre:
-        <input type="text" name="titre" value={data.titre} onChange={handleInputChange} required />
+        <input type="text" name="titre" value={data.titre} onChange={handleInputChange} required placeholder="Rentrer le titre"/>
       </label>
       <label>
         Description du projet:
-        <textarea name="descriptionProjet" value={data.descriptionProjet} onChange={handleInputChange} required />
+        <textarea name="descriptionProjet" value={data.descriptionProjet} onChange={handleInputChange} required placeholder="Description du projet"/>
       </label>
       <label>
         Budget:

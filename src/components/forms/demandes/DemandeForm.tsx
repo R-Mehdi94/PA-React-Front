@@ -92,7 +92,7 @@ const DemandeForm: React.FC = () => {
           <div className={'form-group'}>
             <label>
               Email:
-              <input type="email" name="emailVisiteur" value={demande.emailVisiteur} onChange={handleInputChange} required />
+              <input type="email" name="emailVisiteur" value={demande.emailVisiteur} onChange={handleInputChange} required placeholder="Rentrer votre email" />
             </label>
           </div>
     

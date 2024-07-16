@@ -19,7 +19,6 @@ const Navbar: FunctionComponent = () => {
         <li><Link to='/don'>Faire un don</Link></li>
         <li><Link to='/adherer'>Adherez à ECAF</Link></li>
         <li><Link to='/demande'>Une demande ?</Link></li>
-        <li><Link to='/parainer'>Parrainage adherent</Link></li>
         <li><Link to='/contact'>Nous contacter</Link></li>
       </ul>
     </nav>

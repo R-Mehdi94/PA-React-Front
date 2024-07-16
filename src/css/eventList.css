@@ -30,23 +30,36 @@
   .event-card p {
     margin: 8px 0;
   }
-  
-  .signup-button, .disabled-button, .submit-button {
-    background-color: #007bff;
+
+  .subscribe-button {
+    background-color: #827ebd;
     color: white;
     border: none;
     border-radius: 4px;
     padding: 10px 20px;
+    margin-left: 10px;
+  }
+
+  .unsubscribe-button {
+    background-color: #bb8a8a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin: 1%;
+
+    padding: 10px 20px;
     cursor: pointer;
+    margin-left: 10px;
   }
   
-  .disabled-button {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .signup-button:hover, .submit-button:hover {
-    background-color: #0056b3;
+  .submit-button {
+    background-color: #90BB8A;
+    color: white;
+    border: none;
+    margin: 1%;
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin-left: 10px;
   }
   
   .signup-form {
@@ -77,12 +90,77 @@
   }
 
 .error-message {
-    background-color: #d4edda;
+    background-color: #edd4d4;
     color: #571515;
-    border: 1px solid #c3e6cb;
+    border: 1px solid #edd4d4;
     border-radius: 4px;
     padding: 10px;
     margin-bottom: 20px;
     text-align: center;
   }
   
+  .subscribe-button:hover {
+    background-color: #7a81a6;
+  }
+  
+  .unsubscribe-button:hover {
+    background-color: #a67a7a;
+  }
+  
+  .submit-button:hover {
+    background-color: #7DA67A;
+  }
+
+
+  .dots-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .dot {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background-color: #b3d4fc;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  
+  .dot:last-child {
+    margin-right: 0;
+  }
+  
+  .dot:nth-child(1) {
+    animation-delay: -0.3s;
+  }
+  
+  .dot:nth-child(2) {
+    animation-delay: -0.1s;
+  }
+  
+  .dot:nth-child(3) {
+    animation-delay: 0.1s;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(0.8);
+      background-color: #b3d4fc;
+      box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+    }
+  
+    50% {
+      transform: scale(1.2);
+      background-color: #6793fb;
+      box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);
+    }
+  
+    100% {
+      transform: scale(0.8);
+      background-color: #b3d4fc;
+      box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+    }
+  }

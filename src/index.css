@@ -39,6 +39,7 @@
    * Remove default margin
    */
   body {
+    background: #efeeee;
     margin: 0;
   }
   
