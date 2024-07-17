@@ -64,6 +64,7 @@ const EventList: React.FC = () => {
         const verif = await verifVisiteur(verifVisiteurConst);
         // @ts-ignore
         if (verif === "Visiteur non existant") {
+          setIsLoading(false);
           setError('Adherent non trouvé, veuillez vérifier vos informations');
           return;
         }
@@ -82,6 +83,7 @@ const EventList: React.FC = () => {
       const verif = await verifEmail({ emailVisiteur: email, evenement: selectedEventId as number });
       // @ts-ignore
       if (verif.response === "Email inscrit") {
+        setIsLoading(false);
         setError('Vous êtes déjà inscrit à cet événement.');
         return;
       }
@@ -97,12 +99,14 @@ const EventList: React.FC = () => {
       if (response && response.Evenements) {
         setEvenements(response.Evenements);
       } else {
+        setIsLoading(false);
         setError('Error fetching events');
       }
       setIsLoading(false);
       setConfirmationMessage('Votre inscription a été prise en compte.');
     } catch (err) {
       console.error('Error creating inscription', err);
+      setIsLoading(false);
       setError('Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
     }
 
@@ -127,6 +131,8 @@ const EventList: React.FC = () => {
   };
 
   const handleUnsubscribeFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setError(null);
+    setConfirmationMessage(null)
     setIsLoading(true);
     e.preventDefault();
 
@@ -141,10 +147,12 @@ const EventList: React.FC = () => {
         const verif = await verifVisiteur(verifVisiteurConst);
         // @ts-ignore
         if (verif === "Visiteur non existant") {
+          setIsLoading(false);
           setError('Adherent non trouvé, veuillez vérifier vos informations');
           return;
         }
       } catch (error) {
+        setIsLoading(false);
         console.error('Error verifying visitor', error);
         throw error;
       }
@@ -154,6 +162,7 @@ const EventList: React.FC = () => {
       const verif = await verifEmail({ emailVisiteur: unsubscribeEmail, evenement: selectedUnsubscribeEventId as number });
       // @ts-ignore
       if (verif.response === "Email non inscrit") {
+        setIsLoading(false);
         setError('Inscription non trouvé, veuillez vérifier vos informations');
         return;
       }
@@ -161,6 +170,7 @@ const EventList: React.FC = () => {
       const verifRemove = await removeInscription({ emailVisiteur: unsubscribeEmail, evenement: selectedUnsubscribeEventId as number });
 
       if (!verifRemove) {
+        setIsLoading(false);
         setError('Erreur lors de la suppression de l\'inscription, veuillez réessayer');
         return;
       }
@@ -168,6 +178,7 @@ const EventList: React.FC = () => {
       if (response && response.Evenements) {
         setEvenements(response.Evenements);
       } else {
+        setIsLoading(false);
         setError('Error fetching events');
       }
 
@@ -176,6 +187,7 @@ const EventList: React.FC = () => {
 
     } catch (err) {
       console.error('Error removing inscription', err);
+      setIsLoading(false);
       setError('Une erreur est survenue lors de la désinscription. Veuillez réessayer.');
     }
 
