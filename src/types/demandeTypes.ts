@@ -37,6 +37,15 @@ export interface AideProjetDemande {
   demande:number;
 }
 
+export interface ParrainageDemande2 {
+  id?: number;
+  parrain?: number;
+  demandeId?: number;
+  detailsParrainage: string;
+  demande:number;
+  numTel:number;
+}
+
 export interface ParrainageDemande {
   id?: number;
   parrain?: number;

@@ -4,7 +4,7 @@ import AutreDemandeForm from "./AutreDemandeForm";
 import AideProjetDemandeForm from "./AideProjetDemandeForm";
 import EvenementDemandeForm from "./EvenementDemandeForm";
 import ParrainageDemandeForm from "./ParrainageDemandeForm";
-import { sendEmailDemande, submitAideProjet, submitAutreDemande, submitDemande, submitEvenementDemande, submitParrainageDemande } from "../../../api/apiService";
+import { sendEmailDemande, submitAideProjet, submitAutreDemande, submitDemande, submitEvenementDemande, submitParrainageDemande, verifVisiteur } from "../../../api/apiService";
 import  './../../../css/demandeForm.css';
 
 const DemandeForm: React.FC = () => {
@@ -56,7 +56,24 @@ const DemandeForm: React.FC = () => {
             await submitEvenementDemande(specificData);
             break;
           case 'Parrainage':
-            await submitParrainageDemande(specificData);
+            const verifVisiteurConst ={
+              email: demande.emailVisiteur,
+              numTel : specificData.numTel
+            }
+            const verif = await verifVisiteur(verifVisiteurConst);
+            // @ts-ignore
+            if (verif === "Visiteur non existant") {
+              setResponseMessage('Adherent non trouvé, veuillez vérifier vos informations');
+              return;
+            }
+            const parrainageDemande = {
+              id: specificData.id,
+              parrain: specificData.parrain,
+              demandeId: specificData.demandeId,
+              detailsParrainage: specificData.detailsParrainage,
+              demande: specificData.demande
+            }
+            await submitParrainageDemande(parrainageDemande);
             break;
           case 'Autre':
             await submitAutreDemande(specificData);
@@ -81,6 +98,8 @@ const DemandeForm: React.FC = () => {
           <div className={'form-group'}>
             <label>
               Type de demande:
+              {demande.type === 'Parrainage' && <h3>Demande reservé au adherent</h3>}
+
               <select name="type" value={demande.type} onChange={handleTypeChange}>
                 <option value="Projet">Projet</option>
                 <option value="Evénement">Evénement</option>

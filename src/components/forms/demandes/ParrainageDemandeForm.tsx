@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { ParrainageDemande } from '../../../types/demandeTypes';
+import { ParrainageDemande2 } from '../../../types/demandeTypes';
 import { User, getUsers } from '../../../api/apiService';
 
 interface Props {
-  onChange: (data: ParrainageDemande) => void;
+  onChange: (data: ParrainageDemande2) => void;
 }
 
 const ParrainageDemandeForm: React.FC<Props> = ({ onChange }) => {
-  const [data, setData] = React.useState<ParrainageDemande>({
+  const [data, setData] = React.useState<ParrainageDemande2>({
     parrain: 0,
     detailsParrainage: '',
-    demande: 0
+    demande: 0,
+    numTel: 0
   });
 
   const [users, setUsers] = useState<User[]>([]);
@@ -36,7 +37,9 @@ const ParrainageDemandeForm: React.FC<Props> = ({ onChange }) => {
   };
 
   return (
+    
     <>
+  
       <label>
         Parrain:
         <select name="parrain" value={data.parrain} onChange={handleInputChange} required>
@@ -49,11 +52,16 @@ const ParrainageDemandeForm: React.FC<Props> = ({ onChange }) => {
         </select>
       </label>
       <label>
+        Numéro de téléphone:
+        <input type="tel" name="numTel" value={data.numTel} onChange={handleInputChange} required />
+      </label>
+      <label>
         Détails du parrainage:
         <textarea name="detailsParrainage" value={data.detailsParrainage} onChange={handleInputChange} required />
       </label>
     </>
   );
+  
 };
 
 export default ParrainageDemandeForm;
