@@ -94,10 +94,13 @@ const EventList: React.FC = () => {
       };
       await sendEmailInscription(emailInscription);
       setConfirmationMessage('Votre inscription a été prise en compte.');
-      setTimeout(() => {
-        setConfirmationMessage(null);
-        window.location.reload();
-      }, 3000);
+      const response = await getEvenemnts();
+      if (response && response.Evenements) {
+        setEvenements(response.Evenements);
+      } else {
+        setError('Error fetching events');
+      }
+
     } catch (err) {
       console.error('Error creating inscription', err);
       setError('Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
@@ -163,10 +166,12 @@ const EventList: React.FC = () => {
       }
 
       setConfirmationMessage('Votre désinscription a été prise en compte.');
-      setTimeout(() => {
-        setConfirmationMessage(null);
-        window.location.reload();
-      }, 3000);
+      const response = await getEvenemnts();
+      if (response && response.Evenements) {
+        setEvenements(response.Evenements);
+      } else {
+        setError('Error fetching events');
+      }
     } catch (err) {
       console.error('Error removing inscription', err);
       setError('Une erreur est survenue lors de la désinscription. Veuillez réessayer.');
