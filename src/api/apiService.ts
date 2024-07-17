@@ -110,12 +110,12 @@ export interface DeleteInscriptionValidationRequest {
   evenement: number
 }
 const api = axios.create({
-  //baseURL: 'https://pa-api-0tcm.onrender.com/', // Remplacez par l'URL de votre API
-  baseURL:'http://localhost:3000/'
+  baseURL: 'https://pa-api-0tcm.onrender.com/', 
+  //baseURL:'http://localhost:3000/'
 });
 
 const n8n = axios.create({
-  baseURL: 'https://mehdikit.app.n8n.cloud/webhook/', // Remplacez par l'URL de votre API
+  baseURL: 'https://mehdikit.app.n8n.cloud/webhook/', 
 });
 
 export const getUsers = async (): Promise<GetUsersResponse> => {
