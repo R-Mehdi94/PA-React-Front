@@ -96,6 +96,11 @@ export interface EmailInscription{
   lieu:string
 }
 
+export interface EmailDesinscription{
+  mail:string,
+  evenement:string,
+}
+
 export interface VerifEmail {
   emailVisiteur: string
   evenement: number
@@ -251,6 +256,16 @@ export const sendEmailDemande = async (emailDemande: EmailDemande): Promise<Emai
 export const sendEmailInscription = async (emailInscription: EmailInscription): Promise<EmailInscription> => {
   try {
       const response = await n8n.post('/2ee7923b-d06e-4fd8-ab10-70dd4688c4f0', emailInscription);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting email demande', error);
+      throw error;
+  }
+};
+
+export const sendEmailDesinscription = async (emailDesinscription: EmailDesinscription): Promise<EmailDesinscription> => {
+  try {
+      const response = await n8n.post('/96e4cedb-f5a4-46b5-8c46-408c7ea16a1a', emailDesinscription);
       return response.data;
   } catch (error) {
       console.error('Error submitting email demande', error);

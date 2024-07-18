@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createInscription, Evenement, getEvenemnts, removeInscription, sendEmailInscription, verifEmail, verifVisiteur } from '../api/apiService';
+import { createInscription, Evenement, getEvenemnts, removeInscription, sendEmailDesinscription, sendEmailInscription, verifEmail, verifVisiteur } from '../api/apiService';
 import '../css/eventList.css';
 
 const EventList: React.FC = () => {
@@ -182,6 +182,7 @@ const EventList: React.FC = () => {
         setError('Error fetching events');
       }
 
+      sendEmailDesinscription({ mail: unsubscribeEmail, evenement: evenements.find(e => e.id === selectedUnsubscribeEventId)?.nom as string });
       setIsLoading(false);
       setConfirmationMessage('Votre désinscription a été prise en compte.');
 
