@@ -10,6 +10,7 @@ import  './../../../css/demandeForm.css';
 const DemandeForm: React.FC = () => {
 
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
 
     const [demande, setDemande] = useState<Demande>({
@@ -42,6 +43,7 @@ const DemandeForm: React.FC = () => {
     };
   
     const handleSubmit = async (e: React.FormEvent) => {
+      setIsLoading(true);
       setResponseMessage(null);
       e.preventDefault();
 
@@ -63,6 +65,7 @@ const DemandeForm: React.FC = () => {
             const verif = await verifVisiteur(verifVisiteurConst);
             // @ts-ignore
             if (verif === "Visiteur non existant") {
+              setIsLoading(false);
               setResponseMessage('Adherent non trouvé, veuillez vérifier vos informations');
               return;
             }
@@ -84,16 +87,29 @@ const DemandeForm: React.FC = () => {
           typeDemande: demande.type
         }
         await sendEmailDemande(demandeEmail)
+        setIsLoading(false);
         setResponseMessage('Demande soumise avec succès !');
         console.log('Response:', response);
       } catch (error) {
+        setIsLoading(false);
         setResponseMessage('Erreur lors de la soumission de la demande.');
         console.error('Error:', error);
       }
     };
   
     return (
+      
       <div className={"container"}>
+        {isLoading && 
+          <center>
+              <br />
+              <div className="loader">
+                  <div className="square-1 square"></div>
+                  <div className="square-2 square"></div>
+              </div>
+              <br />
+              <br />
+          </center>}
         <form onSubmit={handleSubmit}>
           <div className={'form-group'}>
             <label>

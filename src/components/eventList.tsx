@@ -199,14 +199,11 @@ const EventList: React.FC = () => {
   if (isLoading) {
     
     return <center>
-      <section className="dots-container">
-        <div className="dot"></div>
-        <div className="dot"></div>
-        <div className="dot"></div>
-        <div className="dot"></div>
-        <div className="dot"></div>
-      </section>
-    </center>
+          <div className="loader">
+            <div className="square-1 square"></div>
+            <div className="square-2 square"></div>
+          </div>
+      </center>
   }
 
   return (

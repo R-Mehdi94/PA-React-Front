@@ -5,6 +5,7 @@ import '../css/don.css'
 const Don: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [amount, setAmount] = useState<number>(0);
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
@@ -12,18 +13,21 @@ const Don: React.FC = () => {
 
 
   const handleSubmit = async (event: React.FormEvent) => {
+    setIsLoading(true);
 
     setError(null);
     setSuccess(null);
     event.preventDefault();
 
     if (!stripe || !elements) {
+      setIsLoading(false);
       setError("Stripe has not been properly initialized.");
       return;
     }
 
     const cardElement = elements.getElement(CardElement);
     if (!cardElement) {
+      setIsLoading(false);
       setError("L'élément de carte n'est pas disponible.");
       return;
     }
@@ -36,6 +40,7 @@ const Don: React.FC = () => {
       });
 
       if (paymentMethodResult.error) {
+        setIsLoading(false);
         setError(paymentMethodResult.error.message || "Une erreur s'est produite lors de la création du mode de paiement.");
         return;
       }
@@ -61,6 +66,7 @@ const Don: React.FC = () => {
 
       if (paymentIntent.paymentIntent?.status === 'succeeded') {
         await sendEmailDon(emailDon);
+        setIsLoading(false);
         setSuccess("Don réussi !");
         return;
       }
@@ -70,22 +76,37 @@ const Don: React.FC = () => {
       });
 
       if (paymentResult.error) {
+        setIsLoading(false);
         setError(paymentResult.error.message || "Une erreur s'est produite lors de la confirmation du paiement.");
       } else if (paymentResult.paymentIntent && paymentResult.paymentIntent.status === 'succeeded') {
+        setIsLoading(false);
         setSuccess("Don réussi !");
         await sendEmailDon(emailDon);
       } else {
+        setIsLoading(false);
         setError("Une erreur inattendue est apparue. Veuillez réessayer.");
       }
     } catch (error: any) {
+      setIsLoading(false);
       setError(error.response ? error.response.data.error.message : error.message || "Une erreur interne a eu lieu.");
       console.error("Payment Error:", error.response ? error.response.data : error);
     }
   };
 
+
+
   return (
     <div>
       <center>
+      {isLoading && <center>
+          <br />
+          <br />
+          <div className="loader">
+            <div className="square-1 square"></div>
+            <div className="square-2 square"></div>
+          </div>
+      </center>}
+
         <h1>Faite un don !</h1>
       </center>
       <div className="container">

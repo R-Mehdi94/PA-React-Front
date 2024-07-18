@@ -17,6 +17,7 @@ export interface Visiteur {
 const Adherer: React.FC = () => {
     const stripe = useStripe();
     const elements = useElements();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [membershipType, setMembershipType] = useState<string>('10');
     const [visiteur, setVisiteur] = useState<Visiteur>({
         email: '',
@@ -46,18 +47,21 @@ const Adherer: React.FC = () => {
     };
 
     const handleSubmit = async (event: React.FormEvent) => {
+        setIsLoading(true);
         setError(null);
         setSuccess(null);
 
         event.preventDefault();
 
         if (!stripe || !elements) {
+            setIsLoading(false);
             setError("Stripe n'a pas été correctement initialisé.");
             return;
         }
 
         const cardElement = elements.getElement(CardElement);
         if (!cardElement) {
+            setIsLoading(false);
             setError("L'élément de carte n'est pas disponible.");
             return;
         }
@@ -69,6 +73,7 @@ const Adherer: React.FC = () => {
             });
 
             if (paymentMethodResult.error) {
+                setIsLoading(false);
                 setError(paymentMethodResult.error.message || "Une erreur s'est produite lors de la création du mode de paiement.");
                 return;
             }
@@ -84,7 +89,6 @@ const Adherer: React.FC = () => {
 
             const clientSecret = response.clientSecret;
 
-            // Vérifiez l'état du PaymentIntent avant de tenter de le confirmer
             const paymentIntent = await stripe.retrievePaymentIntent(clientSecret);
             const emailSub = {
                 mail: visiteur.email,
@@ -93,11 +97,13 @@ const Adherer: React.FC = () => {
 
             const responseVisiteur = await createVisiteur(visiteur);
             if(responseVisiteur.status === 209){
+                setIsLoading(false);
                 setError("L'email est déjà utilisé.");
                 return;
             }
 
             if (paymentIntent.paymentIntent?.status === 'succeeded') {
+                setIsLoading(false);
                 setSuccess("Inscription réussie !");
                 await sendEmailAdherer(emailSub);
                 return;
@@ -108,14 +114,18 @@ const Adherer: React.FC = () => {
             });
 
             if (paymentResult.error) {
+                setIsLoading(false);
                 setError(paymentResult.error.message || "Une erreur s'est produite lors de la confirmation du paiement.");
             } else if (paymentResult.paymentIntent && paymentResult.paymentIntent.status === 'succeeded') {
+                setIsLoading(false);
                 setSuccess("Inscription réussie !");
                 await sendEmailAdherer(emailSub);
             } else {
+                setIsLoading(false);
                 setError("Une erreur inattendue est apparue. Veuillez réessayer.");
             }
         } catch (error: any) {
+            setIsLoading(false);
             setError(error.response ? error.response.data.error.message : error.message || "Une erreur interne a eu lieu.");
             console.error("Payment Error:", error.response ? error.response.data : error);
         }
@@ -126,6 +136,17 @@ const Adherer: React.FC = () => {
             <center>
                 <h1>Adhérer à ECAF !</h1>
             </center>
+            {isLoading && 
+
+            <center>
+                <br />
+                <div className="loader">
+                    <div className="square-1 square"></div>
+                    <div className="square-2 square"></div>
+                </div>
+                <br />
+                <br />
+            </center>}
             <div className="container">
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">

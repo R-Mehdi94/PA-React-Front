@@ -111,56 +111,54 @@
     background-color: #7DA67A;
   }
 
+/* Discord loader made by: csozi | Website: www.csozi.hu*/
 
-  .dots-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
+.loader {
+  position: relative;
+  height: 60px;
+  width: 60px;
+  box-sizing: content-box;
+  padding: 10px;
+}
+
+.square {
+  background-color: #7289DA;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+}
+
+.square-1 {
+  animation: load 2s infinite;
+}
+
+.square-2 {
+  animation: load 2s infinite;
+  animation-delay: 1s;
+}
+
+@keyframes load {
+  0% {
+    translate: 0px 0px;
+    scale: 1;
+    rotate: 0deg;
   }
-  
-  .dot {
-    height: 20px;
-    width: 20px;
-    margin-right: 10px;
-    border-radius: 10px;
-    background-color: #b3d4fc;
-    animation: pulse 1.5s infinite ease-in-out;
+
+  25% {
+    translate: 40px 0px;
+    scale: 0.5;
+    rotate: -90deg;
   }
-  
-  .dot:last-child {
-    margin-right: 0;
+
+  50% {
+    translate: 40px 40px;
+    scale: 1;
+    rotate: 180deg;
   }
-  
-  .dot:nth-child(1) {
-    animation-delay: -0.3s;
+
+  75% {
+    translate: 0px 40px;
+    scale: 0.5;
+    rotate: 90deg;
   }
-  
-  .dot:nth-child(2) {
-    animation-delay: -0.1s;
-  }
-  
-  .dot:nth-child(3) {
-    animation-delay: 0.1s;
-  }
-  
-  @keyframes pulse {
-    0% {
-      transform: scale(0.8);
-      background-color: #b3d4fc;
-      box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
-    }
-  
-    50% {
-      transform: scale(1.2);
-      background-color: #6793fb;
-      box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);
-    }
-  
-    100% {
-      transform: scale(0.8);
-      background-color: #b3d4fc;
-      box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
-    }
-  }
+}
