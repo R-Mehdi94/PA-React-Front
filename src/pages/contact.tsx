@@ -42,7 +42,7 @@ const ContactPage = () => {
         <iframe
           title="ECAF Location"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.999389998581!2d2.363329015675449!3d48.85715057928759!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06b59f81%3A0xc22cf00fa2a80b7b!2s50%20Rue%20des%20Tournelles%2C%2075003%20Paris%2C%20France!5e0!3m2!1sen!2sus!4v1628783125296!5m2!1sen!2sus"
-          className="iframe"
+          className="iframe2"
           allowFullScreen={false}
           loading="lazy"
         ></iframe>
