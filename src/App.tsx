@@ -12,6 +12,12 @@ import Adherer from './pages/subscription';
 import Evenement from './pages/evenement';
 import PresentationPage from './pages/presentationPage';
 import ContactPage from './pages/contact';
+import Login from './pages/login';
+import MyDonations from './components/MyDonations';
+import MyEvents from './components/MyEvents';
+import MySponsor from './components/MySponsor';
+import MySubscriptions from './components/MySubscriptions';
+import ProfileDetails from './components/ProfileDetails';
 
 
 const App: FunctionComponent = () => {
@@ -36,6 +42,12 @@ const App: FunctionComponent = () => {
               <Route path="/don" element={<Don />} />
               <Route path="/adherer" element={<Adherer />} />
               <Route path="/demande" element={<Demande />} />
+              <Route path="/login" element={<Login />}/>
+              <Route path="/profil/details" element={<ProfileDetails />} />
+              <Route path="/profil/events" element={<MyEvents />} />
+              <Route path="/profil/donations" element={<MyDonations />} />
+              <Route path="/profil/subscriptions" element={<MySubscriptions />} />
+              <Route path="/profil/sponsor" element={<MySponsor />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </StripeProvider>
@@ -59,6 +71,8 @@ const App: FunctionComponent = () => {
     </React.StrictMode>
   );
 };
+
+
 
 export default App;
 

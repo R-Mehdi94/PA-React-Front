@@ -1,20 +1,24 @@
 import axios from 'axios';
 import { AideProjetDemande, AutreDemande, Demande, DemandeType, EvenementDemande, ParrainageDemande } from '../types/demandeTypes';
 
+
+export enum UserRole {
+  Administrateur = "Administrateur",
+  Utilisateur = "Utilisateur"
+}
+
 export interface User {
-    numTel: string;
-    id: number;
-    nom: string;
-    prenom: string;
-    email: string;
-    role: string;
-    age?: number;
-    phone?: string;
-    adress? : string;
-    dateInscription? : Date ;
-    estBenevole? : boolean;
-    parrainId? : number;
-  }
+  id: number
+  nom: string
+  prenom: string
+  email: string
+  motDePasse: string
+  numTel: string
+  profession: string
+  role: UserRole
+  dateInscription: Date
+  estBenevole: boolean
+}
   
  export interface GetUsersResponse {
     Users: User[];
@@ -23,15 +27,35 @@ export interface User {
 
 
 
-export interface Visiteur {
+  export interface Visiteur {
+    id:number
     email: string
     nom: string
     prenom: string
     age: number
     numTel: string
-    adresse: string
     profession: string
-    estBenevole: boolean
+}
+
+export interface Adherent {
+  id:number
+  email: string
+  motDePasse: string
+  nom: string
+  prenom: string
+  age: number
+  numTel: string
+  adresse: string
+  profession: string
+  estBanie: boolean
+  estBenevole: boolean
+  token: string
+  parrain: User
+}
+
+export interface UpdateAdherent{
+    adherent: Adherent
+    token: string
 }
 
 export enum TypeTransaction {
@@ -110,10 +134,28 @@ export interface VerifVisiteur {
   email: string
   numTel: string
 }
+
+export interface Logout {
+  id: number
+  token: string
+}
+
 export interface DeleteInscriptionValidationRequest {
   emailVisiteur: string
   evenement: number
 }
+export interface DeleteInscriptionAdherent{
+  adherent: number
+  evenement: number
+}
+
+
+export interface Login{
+  email:string,
+  motDePasse:string
+}
+
+
 const api = axios.create({
   baseURL: 'https://pa-api-0tcm.onrender.com/', 
   //baseURL:'http://localhost:3000/'
@@ -140,6 +182,70 @@ export const getEvenemnts = async (): Promise<getEvenemntsResponse> => {
   } catch (error) {
     console.error('Error fetching data', error);
     throw error;
+  }
+};
+
+export const getEvenemntsUser = async (id:number): Promise<any> => {
+  try {
+    const response = await api.get(`inscriptions?adherent=${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data', error);
+    throw error;
+  }
+};
+
+
+
+export const updateAdherent = async (updateAdherent: UpdateAdherent): Promise<Adherent|null> => {
+  try {
+    const { adherent, token } = updateAdherent;
+
+    const updateAdherentSansId = {
+      email: adherent.email,
+      motDePasse: adherent.motDePasse,
+      nom: adherent.nom,
+      prenom: adherent.prenom,
+      age: adherent.age,
+      numTel: adherent.numTel,
+      adresse: adherent.adresse,
+      profession: adherent.profession,
+      estBanie: adherent.estBanie,
+      estBenevole: adherent.estBenevole,
+      token: token
+    };
+
+    const response = await api.patch(`/adherents/${adherent.id}`, updateAdherentSansId, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error updating adherent', error);
+    return null;
+  }
+};
+
+export const login= async (login:Login): Promise<Adherent> => {
+  try {
+      const response = await api.post('/auth/loginAdherent', login);
+      return response.data;
+  } catch (error) {
+      console.error('Error creating donation', error);
+      throw error;
+  }
+};
+
+export const logout= async (logout:Logout): Promise<JSON> => {
+  try {
+      console.log(`/auth/logoutAdherent/${logout.id}`)
+      const response = await api.delete(`/auth/logoutAdherent/${logout.id}`, { data: { token: logout.token }});
+      return response.data;
+  } catch (error) {
+      console.error('Error creating donation', error);
+      throw error;
   }
 };
 
@@ -316,6 +422,7 @@ export const verifVisiteur = async (verifVisiteur: VerifVisiteur): Promise<Verif
   }
 };
 
+
 export const removeInscription = async (DeleteInscriptionValidationRequest: DeleteInscriptionValidationRequest): Promise<VerifVisiteur> => {
   try {
       const response = await api.post('/deleteInscriptions', DeleteInscriptionValidationRequest);
@@ -324,4 +431,18 @@ export const removeInscription = async (DeleteInscriptionValidationRequest: Dele
       console.error('Error deleteInscriptions', error);
       throw error;
   }
+
+  
+};
+
+export const removeInscriptionAdherent = async (deleteInscriptionAdherent: DeleteInscriptionAdherent): Promise<VerifVisiteur> => {
+  try {
+      const response = await api.post('/deleteInscriptionAdherent', deleteInscriptionAdherent);
+      return response.data;
+  } catch (error) {
+      console.error('Error deleteInscriptions', error);
+      throw error;
+  }
+
+  
 };

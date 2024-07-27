@@ -1,0 +1,145 @@
+.profile-container {
+  display: flex;
+}
+
+.profile-details {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.profile-details form div {
+  margin-bottom: 15px; /* Ajoute de l'espace entre les champs du formulaire */
+}
+
+.profile-details label {
+  display: block; /* Assure que les labels occupent toute la largeur disponible */
+  margin-bottom: 5px; /* Ajoute de l'espace sous les labels */
+}
+
+.profile-details input {
+  width: 100%; /* Assure que les champs de texte occupent toute la largeur disponible */
+  padding: 10px; /* Ajoute du padding à l'intérieur des champs de texte */
+  box-sizing: border-box; /* Inclut le padding et les bordures dans la largeur totale */
+  border: 1px solid #ccc; /* Ajoute une bordure légère */
+  border-radius: 4px; /* Ajoute des coins arrondis */
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f4f4f4;
+  height: 100vh; /* Assure que la sidebar prend toute la hauteur de l'écran */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centre verticalement le contenu */
+  padding: 20px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 20px; /* Espace entre les éléments */
+  text-align: center; /* Centre le texte horizontalement */
+}
+
+.sidebar button {
+  background: none;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #333;
+  text-decoration: none;
+  width: 100%;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar button:hover {
+  background-color: #e0e0e0;
+}
+
+.profile-container {
+  display: flex;
+}
+
+.profile-details {
+  flex: 1;
+  padding: 20px;
+}
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espace entre les cartes */
+}
+
+.event-item {
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.event-item h3 {
+  margin-top: 0;
+}
+
+.event-item button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.event-item button:hover {
+  background-color: #cc0000;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.modal button {
+  margin: 10px 5px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal button:hover {
+  background-color: #0056b3;
+}

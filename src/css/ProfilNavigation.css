@@ -1,0 +1,36 @@
+.sidebar {
+  width: 200px;
+  background-color: #f4f4f4;
+  height: 100vh; /* Assure que la sidebar prend toute la hauteur de l'écran */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centre verticalement le contenu */
+  padding: 20px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 20px; /* Espace entre les éléments */
+  text-align: center; /* Centre le texte horizontalement */
+}
+
+.sidebar button {
+  background: none;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #333;
+  text-decoration: none;
+  width: 100%;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar button:hover {
+  background-color: #e0e0e0;
+}
