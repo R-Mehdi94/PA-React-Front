@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Modal from 'react-modal';
-import ProfilNavigation from "../pages/ProfilNavigation";
-import { Evenement, getEvenemntsUser, removeInscriptionAdherent } from "../api/apiService";
-import "../css/profil.css"; // Assurez-vous que le fichier CSS est importé
+import ProfilNavigation from "../../pages/ProfilNavigation";
+import { Evenement, getEvenemntsUser, removeInscriptionAdherent } from "../../api/apiService";
+import "../../css/profil.css"; // Assurez-vous que le fichier CSS est importé
 
 Modal.setAppElement('#root'); // Assurez-vous que cet élément existe dans votre index.html
 
@@ -14,6 +14,7 @@ const MyEvents: React.FC = () => {
   const [eventToUnsubscribe, setEventToUnsubscribe] = useState<Evenement | null>(null);
 
   useEffect(() => {
+    console.log(storedUser)
     const fetchEvenements = async () => {
       try {
         const response = await getEvenemntsUser(storedUser.adherent.id);
@@ -64,12 +65,18 @@ const MyEvents: React.FC = () => {
 
   if (isLoading) {
     return (
+      <>
+      <br/>
+      <br/>
       <center>
         <div className="loader">
           <div className="square-1 square"></div>
           <div className="square-2 square"></div>
         </div>
       </center>
+      <ProfilNavigation />
+      </>
+
     );
   }
 

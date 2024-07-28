@@ -56,7 +56,6 @@ const Navbar: FunctionComponent = () => {
         <li><Link to='/demande'>Une demande ?</Link></li>
         {user ? (
           <>
-            <li><Link to='/adherer'>Re-adherer à ECAF</Link></li>
             <li><Link to='/profil/details'>Mon compte</Link></li>
             <li>
               <button onClick={handleLogout}>Déconnexion</button>

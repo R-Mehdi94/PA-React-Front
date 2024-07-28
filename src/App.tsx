@@ -13,11 +13,13 @@ import Evenement from './pages/evenement';
 import PresentationPage from './pages/presentationPage';
 import ContactPage from './pages/contact';
 import Login from './pages/login';
-import MyDonations from './components/MyDonations';
-import MyEvents from './components/MyEvents';
-import MySponsor from './components/MySponsor';
-import MySubscriptions from './components/MySubscriptions';
-import ProfileDetails from './components/ProfileDetails';
+import MyDonations from './components/InterfaceUser/MyDonations';
+import MyEvents from './components/InterfaceUser/MyEvents';
+import MySponsor from './components/InterfaceUser/MySponsor';
+import MySubscriptions from './components/InterfaceUser/MySubscriptions';
+import ProfileDetails from './components/InterfaceUser/ProfileDetails';
+import MyRequest from './components/InterfaceUser/Myrequests';
+
 
 
 const App: FunctionComponent = () => {
@@ -48,7 +50,11 @@ const App: FunctionComponent = () => {
               <Route path="/profil/donations" element={<MyDonations />} />
               <Route path="/profil/subscriptions" element={<MySubscriptions />} />
               <Route path="/profil/sponsor" element={<MySponsor />} />
+              <Route path="/profil/requests" element={<MyRequest />} />
+
               <Route path="*" element={<PageNotFound />} />
+
+              
             </Routes>
           </StripeProvider>
 
@@ -71,6 +77,7 @@ const App: FunctionComponent = () => {
     </React.StrictMode>
   );
 };
+
 
 
 

@@ -1,30 +1,70 @@
 .profile-container {
   display: flex;
+  background-color: #f7f7f7; /* Fond gris clair pour toute la page */
 }
 
 .profile-details {
   flex-grow: 1;
-  padding: 20px;
+  padding: 40px;
   background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px;
 }
 
-.profile-details form div {
-  margin-bottom: 15px; /* Ajoute de l'espace entre les champs du formulaire */
+.profile-details h2 {
+  margin-bottom: 20px;
+  color: #333;
 }
 
-.profile-details label {
+.profile-details form {
+  max-width: 600px;
+}
+
+.form-group {
+  margin-bottom: 20px; /* Ajoute de l'espace entre les champs du formulaire */
+}
+
+.form-group label {
   display: block; /* Assure que les labels occupent toute la largeur disponible */
-  margin-bottom: 5px; /* Ajoute de l'espace sous les labels */
+  margin-bottom: 8px; /* Ajoute de l'espace sous les labels */
+  font-weight: bold;
 }
 
-.profile-details input {
+.form-control {
   width: 100%; /* Assure que les champs de texte occupent toute la largeur disponible */
   padding: 10px; /* Ajoute du padding à l'intérieur des champs de texte */
   box-sizing: border-box; /* Inclut le padding et les bordures dans la largeur totale */
   border: 1px solid #ccc; /* Ajoute une bordure légère */
   border-radius: 4px; /* Ajoute des coins arrondis */
+  font-size: 16px;
 }
 
+.btn-save, .btn-change-password {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  width: 100%; /* Ajoute une largeur de 100% pour correspondre aux autres éléments */
+  max-width: 600px; /* Limite la largeur maximale pour éviter qu'elle soit trop large */
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+
+.btn-save:hover, .btn-change-password:hover {
+  background-color: #0056b3;
+}
+
+.change-password-form {
+  margin-top: 20px;
+}
+
+/* Styles pour la sidebar */
 .sidebar {
   width: 200px;
   background-color: #f4f4f4;
@@ -61,6 +101,7 @@
 .sidebar button:hover {
   background-color: #e0e0e0;
 }
+
 
 .profile-container {
   display: flex;
@@ -280,17 +321,12 @@
 
 .request-item.accepted {
   border-color: #28a745; /* Bordure verte pour les demandes acceptées */
-  background-color: #e6ffed; /* Fond vert clair pour les demandes acceptées */
 }
 
 .request-item.pending {
   border-color: #ffc107; /* Bordure jaune pour les demandes en attente */
-  background-color: #fff3cd; /* Fond jaune clair pour les demandes en attente */
 }
 
 .request-item.rejected {
   border-color: #dc3545; /* Bordure rouge pour les demandes refusées */
-  background-color: #ffebee; /* Fond rouge clair pour les demandes refusées */
 }
-
-

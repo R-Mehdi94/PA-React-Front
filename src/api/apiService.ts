@@ -7,6 +7,30 @@ export enum UserRole {
   Utilisateur = "Utilisateur"
 }
 
+export enum typeCotisation {
+  cadre = "cadre",
+  etudiant = "etudiant",
+  chefEntreprise = "chefEntreprise",
+  autre = "autre"
+}
+
+export interface Cotisation {
+  id: number
+  type: typeCotisation
+  Ajours: boolean
+  user: User
+  adherent: Adherent
+  date: string
+}
+
+
+export interface CreateCotisation {
+  type: typeCotisation
+  Ajours: boolean
+  user?: User
+  adherent?: Adherent
+}
+
 export interface User {
   id: number
   nom: string
@@ -65,12 +89,20 @@ export enum TypeTransaction {
 }
 
 export interface Transaction{
-  emailVisiteur: string
-  evenement?: number
+  id:number
   montant: number
   methodePaiement: string
   type: TypeTransaction
-  dateTransaction?: Date
+  visiteur?: Visiteur
+  adherent?: Adherent
+}
+
+export interface CreateTransaction{
+  montant: number
+  methodePaiement: string
+  type: TypeTransaction
+  visiteur?: Visiteur
+  adherent?: Adherent
 }
 
 export interface TransactionCree{
@@ -175,6 +207,16 @@ export const getUsers = async (): Promise<GetUsersResponse> => {
   }
 };
 
+export const getDemandes = async (id:number): Promise<any> => {
+  try {
+    const response = await api.get(`/demandes?adherent=${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data', error);
+    throw error;
+  }
+};
+
 export const getEvenemnts = async (): Promise<getEvenemntsResponse> => {
   try {
     const response = await api.get('/evenements');
@@ -194,6 +236,28 @@ export const getEvenemntsUser = async (id:number): Promise<any> => {
     throw error;
   }
 };
+
+
+export const getDonsUser = async (id:number): Promise<any> => {
+  try {
+    const response = await api.get(`transactions?adherent=${id}&type=Don`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data', error);
+    throw error;
+  }
+};
+
+export const getCotisationsUser = async (id:number): Promise<any> => {
+  try {
+    const response = await api.get(`cotisations?adherent=${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data', error);
+    throw error;
+  }
+};
+
 
 
 
@@ -269,13 +333,34 @@ export const createVisiteur= async (visiteur:Visiteur) => {
   }
 };
 
-export const createTransaction = async (transaction:Transaction): Promise<TransactionCree> => {
+export const createTransaction = async (transaction:CreateTransaction): Promise<TransactionCree> => {
   try {
       const response = await api.post('/transactions', transaction);
       return response.data;
   } catch (error) {
       console.error('Error creating donation', error);
       throw error;
+  }
+};
+
+export const createCotisation = async (cotisation:CreateCotisation): Promise<TransactionCree> => {
+  try {
+      const response = await api.post('/cotisations', cotisation);
+      return response.data;
+  } catch (error) {
+      console.error('Error creating donation', error);
+      throw error;
+  }
+};
+
+export const changePassword = async (id:number, oldPassword:string, newPassword:string, token:string): Promise<TransactionCree|null> => {
+  try {
+      const response = await api.patch(`/adherents/${id}`, {id, oldPassword, newPassword, token});
+      console.log(response)
+      return response.data;
+  } catch (error) {
+      console.error('Error creating donation', error);
+      return null;
   }
 };
 
@@ -431,8 +516,21 @@ export const removeInscription = async (DeleteInscriptionValidationRequest: Dele
       console.error('Error deleteInscriptions', error);
       throw error;
   }
+};
 
-  
+export const deleteAccount = async (id: number, token: string): Promise<any> => {
+  try {
+    const response = await api.delete(`/adherents/${id}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id, token }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting account', error);
+    return null
+  }
 };
 
 export const removeInscriptionAdherent = async (deleteInscriptionAdherent: DeleteInscriptionAdherent): Promise<VerifVisiteur> => {
