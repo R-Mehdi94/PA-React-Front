@@ -420,7 +420,7 @@ export const createVisiteur= async (visiteur:CreateVisiteur) => {
 
 export const createAdherent= async (adherent:CreateAdherent) => {
   try {
-      const response = await api.post('/adherents', adherent);
+      const response = await api.post('/auth/signupAdherent', adherent);
       return response;
   } catch (error) {
       console.error('Error creating donation', error);

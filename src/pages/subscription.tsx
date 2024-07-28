@@ -142,7 +142,6 @@ const Adherer: React.FC = () => {
       }
 
 
-      console.log(adherent);
 
       const transaction = {
         adherent: adherent.data?.id,
@@ -159,6 +158,7 @@ const Adherer: React.FC = () => {
       const emailSub = {
         mail: visiteur.email,
         prenom: visiteur.prenom,
+        motDePasse: newPassword
       };
 
       if (paymentIntent.paymentIntent?.status === 'succeeded') {
@@ -166,6 +166,7 @@ const Adherer: React.FC = () => {
         await createCotisation({ type: membershipType, Ajours: true, adherent: adherent.data.id });
         setIsLoading(false);
         setSuccess("Inscription réussie !");
+        console.log("Email: ", emailSub);
         await sendEmailAdherer(emailSub);
         return;
       }
