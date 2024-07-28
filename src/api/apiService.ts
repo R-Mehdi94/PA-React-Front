@@ -225,7 +225,7 @@ const api = axios.create({
 });
 
 const n8n = axios.create({
-  baseURL: 'https://mehdikit94.app.n8n.cloud/webhook/', 
+  baseURL: 'https://mehdikit94.app.n8n.cloud/webhook', 
 });
 
 export const getUsers = async (): Promise<GetUsersResponse> => {
@@ -509,7 +509,6 @@ export const submitParrainageDemande = async (parrainageDemande: ParrainageDeman
       throw error;
   }
 };
-
 export const sendEmailDon = async (emailDon: EmailDon): Promise<EmailDon> => {
   try {
       const response = await n8n.post('/96fba311-2a74-4e52-845d-c4c25f8983b0', emailDon);
