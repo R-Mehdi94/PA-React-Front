@@ -149,7 +149,7 @@ const Adherer: React.FC = () => {
         adherent: adherent.data?.id,
         montant: amount,
         methodePaiement: paymentMethodResult.paymentMethod?.id || '',
-        type: TypeTransaction.Don,
+        type: TypeTransaction.PaiementCotisations,
       };
 
       const response = await createTransaction(transaction);
