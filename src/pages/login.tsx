@@ -2,11 +2,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../api/apiService";
+import { useAuth } from "../routeProtected/AuthContext";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { login: authLogin } = useAuth(); // Utiliser la fonction de connexion du contexte d'authentification
 
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ const Login: React.FC = () => {
       const user = await login({ email : email, motDePasse: password });
   
       if (user) {
-        localStorage.setItem("user", JSON.stringify(user)); 
+        authLogin(user); // Utiliser la fonction de connexion du contexte d'authentification
         navigate("/profil/details");
       } else {
         alert("Login failed");

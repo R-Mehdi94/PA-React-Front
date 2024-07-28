@@ -51,7 +51,7 @@ export interface User {
 
 
 
-  export interface Visiteur {
+export interface Visiteur {
     id:number
     email: string
     nom: string
@@ -59,6 +59,33 @@ export interface User {
     age: number
     numTel: string
     profession: string
+}
+
+export interface UpdateVisiteur{
+  visiteur: Visiteur
+}
+
+export interface CreateVisiteur {
+  email: string
+  nom: string
+  prenom: string
+  age: number
+  numTel: string
+  profession: string
+  estBanie: boolean
+}
+
+export interface CreateAdherent{
+  email: string
+  motDePasse: string
+  nom: string
+  prenom: string
+  age: number
+  numTel: string
+  adresse: string
+  profession: string
+  estBanie: boolean
+  estBenevole: boolean
 }
 
 export interface Adherent {
@@ -140,8 +167,13 @@ export interface getEvenemntsResponse{
   totalCount: number
 }
 
-export interface Inscription{
-  emailVisiteur:string,
+export interface InscriptionAdherent{
+  adherent:number,
+  evenement:number
+}
+
+export interface InscriptionVisiteur{
+  visiteur:number,
   evenement:number
 }
 
@@ -158,13 +190,12 @@ export interface EmailDesinscription{
 }
 
 export interface VerifEmail {
-  emailVisiteur: string
+  id: number
   evenement: number
 }
 
 export interface VerifVisiteur {
   email: string
-  numTel: string
 }
 
 export interface Logout {
@@ -173,7 +204,7 @@ export interface Logout {
 }
 
 export interface DeleteInscriptionValidationRequest {
-  emailVisiteur: string
+  visiteur: number
   evenement: number
 }
 export interface DeleteInscriptionAdherent{
@@ -258,7 +289,51 @@ export const getCotisationsUser = async (id:number): Promise<any> => {
   }
 };
 
+export const getVisiteurParMail = async (mail:string): Promise<Visiteur> => {
+  try {
+    const response = await api.get(`visiteurs?email=${mail}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data', error);
+    throw error;
+  }
+};
 
+
+
+export const updateVisiteur = async (updateVisiteur: UpdateVisiteur): Promise<Visiteur|null> => {
+  try {
+    console.log(updateVisiteur)
+
+    const updateAdherentSansId = {
+      //@ts-ignore
+      email: updateVisiteur.email,
+      //@ts-ignore
+      nom: updateVisiteur.nom,
+      //@ts-ignore
+      prenom: updateVisiteur.prenom,
+      //@ts-ignore
+
+      age: updateVisiteur.age,
+      //@ts-ignore
+
+      numTel: updateVisiteur.numTel,
+      //@ts-ignore
+
+      profession: updateVisiteur.profession,
+      estBanie: false,
+    };
+    //@ts-ignore
+    const response = await api.patch(`/visiteurs/${updateVisiteur.id}`, updateAdherentSansId, {
+
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error updating adherent', error);
+    return null;
+  }
+};
 
 
 export const updateAdherent = async (updateAdherent: UpdateAdherent): Promise<Adherent|null> => {
@@ -313,7 +388,7 @@ export const logout= async (logout:Logout): Promise<JSON> => {
   }
 };
 
-export const createInscription= async (inscription:Inscription): Promise<Inscription> => {
+export const createInscriptionAdherent= async (inscription:InscriptionAdherent): Promise<InscriptionAdherent> => {
   try {
       const response = await api.post('/inscriptions', inscription);
       return response.data;
@@ -323,7 +398,17 @@ export const createInscription= async (inscription:Inscription): Promise<Inscrip
   }
 };
 
-export const createVisiteur= async (visiteur:Visiteur) => {
+export const createInscriptionVisiteur= async (inscription:InscriptionVisiteur): Promise<InscriptionVisiteur> => {
+  try {
+      const response = await api.post('/inscriptions', inscription);
+      return response.data;
+  } catch (error) {
+      console.error('Error creating donation', error);
+      throw error;
+  }
+};
+
+export const createVisiteur= async (visiteur:CreateVisiteur) => {
   try {
       const response = await api.post('/visiteurs', visiteur);
       return response;
@@ -332,6 +417,17 @@ export const createVisiteur= async (visiteur:Visiteur) => {
       throw error;
   }
 };
+
+export const createAdherent= async (adherent:CreateAdherent) => {
+  try {
+      const response = await api.post('/adherents', adherent);
+      return response;
+  } catch (error) {
+      console.error('Error creating donation', error);
+      throw error;
+  }
+};
+
 
 export const createTransaction = async (transaction:CreateTransaction): Promise<TransactionCree> => {
   try {
@@ -487,9 +583,19 @@ export const sendEmailInscriptionAdherent = async (emailInscription: EmailInscri
   }
 };
 
-export const verifEmail = async (verifEmail: VerifEmail): Promise<VerifEmail> => {
+export const verifEmailAdherent = async (verifEmail: VerifEmail): Promise<VerifEmail> => {
   try {
-      const response = await api.post('/verifEmail', verifEmail);
+      const response = await api.post('/verifEmailAdherent', verifEmail);
+      return response.data;
+  } catch (error) {
+      console.error('Error verifEmail', error);
+      throw error;
+  }
+};
+
+export const verifEmailVisiteur = async (verifEmail: VerifEmail): Promise<VerifEmail> => {
+  try {
+      const response = await api.post('/verifEmailVisiteur', verifEmail);
       return response.data;
   } catch (error) {
       console.error('Error verifEmail', error);
@@ -499,6 +605,7 @@ export const verifEmail = async (verifEmail: VerifEmail): Promise<VerifEmail> =>
 
 export const verifVisiteur = async (verifVisiteur: VerifVisiteur): Promise<VerifVisiteur> => {
   try {
+    console.log(verifVisiteur)
       const response = await api.post('/verifVisiteur', verifVisiteur);
       return response.data.response;
   } catch (error) {

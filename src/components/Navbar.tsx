@@ -1,26 +1,14 @@
-// src/components/Navbar.tsx
 import { FunctionComponent, useState } from "react";
 import logo from '../images/logo.webp';
 import '../css/Navbar.css';
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../api/apiService";
+import { useAuth } from '../routeProtected/AuthContext';
 
 const Navbar: FunctionComponent = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const  handleLogout = () => {
-    setIsLoading(true);
-    const user = getUserFromLocalStorage()
-    const logoutResponse = logout({id :user.adherent.id, token : user.token});
-    if (!logoutResponse) {
-      alert("Logout failed");
-      return;
-    }
-    localStorage.removeItem("user");
-    setIsLoading(false);
-    navigate("/");
-  };
+  const { isAuthenticated, logout: authLogout } = useAuth();
 
   const getUserFromLocalStorage = () => {
     const userStr = localStorage.getItem("user");
@@ -29,18 +17,46 @@ const Navbar: FunctionComponent = () => {
     }
     return null;
   };
-  const user = getUserFromLocalStorage();
+
+
+  const handleLogout = async () => {
+    setIsLoading(true);
+    try {
+      const user = getUserFromLocalStorage();
+      if (!user) {
+        alert("Logout failed");
+        setIsLoading(false);
+        return;
+      }
+
+      const logoutResponse = await logout({ id: user.adherent.id, token: user.token });
+
+      if (!logoutResponse) {
+        alert("Logout failed");
+        setIsLoading(false);
+        return;
+      }
+
+      authLogout(); // Utilisez la fonction de déconnexion du contexte d'authentification
+      navigate("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+      alert("Logout error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   if (isLoading) {
-    
-    return <center>
-          <div className="loader">
-            <div className="square-1 square"></div>
-            <div className="square-2 square"></div>
-          </div>
+    return (
+      <center>
+        <div className="loader">
+          <div className="square-1 square"></div>
+          <div className="square-2 square"></div>
+        </div>
       </center>
+    );
   }
-
 
   return (
     <nav className="nav">
@@ -54,7 +70,7 @@ const Navbar: FunctionComponent = () => {
         <li><Link to='/evenement'>Evenement</Link></li>
         <li><Link to='/don'>Faire un don</Link></li>
         <li><Link to='/demande'>Une demande ?</Link></li>
-        {user ? (
+        {isAuthenticated ? (
           <>
             <li><Link to='/profil/details'>Mon compte</Link></li>
             <li>

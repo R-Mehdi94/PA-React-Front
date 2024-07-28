@@ -6,8 +6,16 @@ export interface Demande {
   type: DemandeType;
   dateDemande?: string;
   statut: StatutType;
-  emailVisiteur: string;
+  adherent?: number;
+  visiteur?: number;
+  email?: string;
+  nom?: string;
+  prenom?: string;
+  age?: number;
+  numTel?: string;
+  profession?: string;
 }
+
 
 export interface AutreDemande {
   id?: number;
@@ -43,7 +51,7 @@ export interface ParrainageDemande2 {
   demandeId?: number;
   detailsParrainage: string;
   demande:number;
-  numTel:number;
+  numTel?:number;
 }
 
 export interface ParrainageDemande {

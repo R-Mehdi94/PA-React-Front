@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createInscription, Evenement, getEvenemnts, removeInscription, sendEmailDesinscription, sendEmailInscription, verifEmail, verifVisiteur } from '../api/apiService';
+import { createInscriptionVisiteur, createVisiteur, Evenement, getEvenemnts, getVisiteurParMail, removeInscription, sendEmailDesinscription, sendEmailInscription, updateVisiteur, verifEmailVisiteur, verifVisiteur } from '../api/apiService';
 import '../css/eventList.css';
 
 const EventList: React.FC = () => {
@@ -13,6 +13,11 @@ const EventList: React.FC = () => {
   const [unsubscribeEmail, setUnsubscribeEmail] = useState<string>('');
   const [unsubscribePhone, setUnsubscribePhone] = useState<string>('');
   const [selectedUnsubscribeEventId, setSelectedUnsubscribeEventId] = useState<number | null>(null);
+
+  const [nom, setNom] = useState<string>('');
+  const [prenom, setPrenom] = useState<string>('');
+  const [age, setAge] = useState<number>(0);
+  const [profession, setProfession] = useState<string>('');
 
   useEffect(() => {
     const fetchEvenements = async () => {
@@ -35,7 +40,7 @@ const EventList: React.FC = () => {
 
   const handleSignUpClick = (eventId: number) => {
     setSelectedEventId(eventId);
-    setSelectedUnsubscribeEventId(null); // Clear unsubscribe selection
+    setSelectedUnsubscribeEventId(null);
     setConfirmationMessage(null);
     setError(null);
   };
@@ -48,52 +53,88 @@ const EventList: React.FC = () => {
     setPhone(e.target.value);
   };
 
+  const handleNomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNom(e.target.value);
+  };
+
+  const handlePrenomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPrenom(e.target.value);
+  };
+
+  const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAge(Number(e.target.value));
+  };
+
+  const handleProfessionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProfession(e.target.value);
+  };
+
+  const validatePhone = (phone: string): boolean => {
+    return phone.length === 10;
+  };
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     setError(null);
     setConfirmationMessage(null);
     e.preventDefault();
 
-    const estReserve = evenements.find(e => e.id === selectedEventId)?.estReserve as boolean
-    if (estReserve) {
-      const verifVisiteurConst = {
-        email: email,
-        numTel: phone,
-      };
-      try {
-        const verif = await verifVisiteur(verifVisiteurConst);
+    if (!validatePhone(phone)) {
+      setIsLoading(false);
+      setError('Le numéro de téléphone doit contenir exactement 10 caractères.');
+      return;
+    }
+
+    let visiteur;
+    const verifVisiteurConst = {
+      email: email
+    };
+    try {
+      const verif = await verifVisiteur(verifVisiteurConst);
+      // @ts-ignore
+      if (verif === "Visiteur non existant") {
+        visiteur = await createVisiteur({ email: email, nom: nom, prenom: prenom, age: age, numTel: phone, profession: profession, estBanie: false });
+      } else {
+        visiteur = await getVisiteurParMail(email);
         // @ts-ignore
-        if (verif === "Visiteur non existant") {
+        if(visiteur.Visiteurs[0].isBanie){
           setIsLoading(false);
-          setError('Adherent non trouvé, veuillez vérifier vos informations');
+          setError('Vous êtes banni');
           return;
         }
-
-      } catch (error) {
-        console.error('Error verifying visitor', error);
-        throw error;
+        // @ts-ignore
+        await updateVisiteur({ id: visiteur.Visiteurs[0].id, email: email, nom: nom, prenom: prenom, age: age, numTel: phone, profession: profession });
       }
+
+    } catch (error) {
+      console.error('Error verifying visitor', error);
+      throw error;
     }
 
     const inscription = {
-      emailVisiteur: email,
+      // @ts-ignore
+      visiteur: visiteur.data?.id ?? visiteur.Visiteurs[0]?.id,
       evenement: selectedEventId as number,
     };
+    
     try {
-      const verif = await verifEmail({ emailVisiteur: email, evenement: selectedEventId as number });
+      // @ts-ignore
+      const verif = await verifEmailVisiteur({ id: visiteur.data?.id ?? visiteur.Visiteurs[0]?.id, evenement: selectedEventId as number });
       // @ts-ignore
       if (verif.response === "Email inscrit") {
         setIsLoading(false);
         setError('Vous êtes déjà inscrit à cet événement.');
         return;
       }
-      await createInscription(inscription);
+      await createInscriptionVisiteur(inscription);
       const emailInscription = {
+        // @ts-ignore
         mail: email,
         evenement: evenements.find(e => e.id === selectedEventId)?.nom as string,
         date: evenements.find(e => e.id === selectedEventId)?.date as Date,
         lieu: evenements.find(e => e.id === selectedEventId)?.lieu as string,
       };
+      // @ts-ignore
       await sendEmailInscription(emailInscription);
       const response = await getEvenemnts();
       if (response && response.Evenements) {
@@ -112,6 +153,10 @@ const EventList: React.FC = () => {
 
     setEmail('');
     setPhone('');
+    setNom('');
+    setPrenom('');
+    setAge(0);
+    setProfession('');
     setSelectedEventId(null);
   };
 
@@ -132,23 +177,46 @@ const EventList: React.FC = () => {
 
   const handleUnsubscribeFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setError(null);
-    setConfirmationMessage(null)
+    setConfirmationMessage(null);
     setIsLoading(true);
     e.preventDefault();
 
-    const evenement = evenements.find(e => e.id === selectedUnsubscribeEventId)?.estReserve as boolean;
 
-    if (evenement) {
-      const verifVisiteurConst = {
-        email: unsubscribeEmail,
-        numTel: unsubscribePhone,
-      };
-      try {
-        const verif = await verifVisiteur(verifVisiteurConst);
+    let visiteur;
+    const verifVisiteurConst = {
+      email: unsubscribeEmail
+    };
+    try {
+      const verif = await verifVisiteur(verifVisiteurConst);
+      // @ts-ignore
+      if (verif === "Visiteur non existant") {
+        setIsLoading(false);
+        setError('Visiteur non trouvé, veuillez vérifier vos informations');
+        return
+      } else {
+        visiteur = await getVisiteurParMail(unsubscribeEmail);
         // @ts-ignore
-        if (verif === "Visiteur non existant") {
+
+        if(visiteur.Visiteurs[0].isBanie){
           setIsLoading(false);
-          setError('Adherent non trouvé, veuillez vérifier vos informations');
+          setError('Vous êtes banni');
+          return;
+        }
+        
+      }
+    } catch (error) {
+      console.error('Error verifying visitor', error);
+      throw error;
+    }
+
+
+      try {
+          // @ts-ignore
+        const verif = await verifEmailVisiteur({id: visiteur.Visiteurs[0].id, evenement: selectedUnsubscribeEventId as number});
+        // @ts-ignore
+        if (verif.response === "Email non inscrit") {
+          setIsLoading(false);
+          setError('Inscription non trouvé, veuillez vérifier vos informations');
           return;
         }
       } catch (error) {
@@ -156,18 +224,11 @@ const EventList: React.FC = () => {
         console.error('Error verifying visitor', error);
         throw error;
       }
-    }
+    
 
     try {
-      const verif = await verifEmail({ emailVisiteur: unsubscribeEmail, evenement: selectedUnsubscribeEventId as number });
-      // @ts-ignore
-      if (verif.response === "Email non inscrit") {
-        setIsLoading(false);
-        setError('Inscription non trouvé, veuillez vérifier vos informations');
-        return;
-      }
-
-      const verifRemove = await removeInscription({ emailVisiteur: unsubscribeEmail, evenement: selectedUnsubscribeEventId as number });
+        // @ts-ignore
+      const verifRemove = await removeInscription({ visiteur: visiteur.Visiteurs[0].id, evenement: selectedUnsubscribeEventId as number });
 
       if (!verifRemove) {
         setIsLoading(false);
@@ -198,13 +259,14 @@ const EventList: React.FC = () => {
   };
 
   if (isLoading) {
-    
-    return <center>
-          <div className="loader">
-            <div className="square-1 square"></div>
-            <div className="square-2 square"></div>
-          </div>
+    return (
+      <center>
+        <div className="loader">
+          <div className="square-1 square"></div>
+          <div className="square-2 square"></div>
+        </div>
       </center>
+    );
   }
 
   return (
@@ -221,16 +283,46 @@ const EventList: React.FC = () => {
             <p>{evenement.description}</p>
             <p>Places disponibles : {evenement.nbPlace}</p>
             <p>Réservé au membre adherent : {evenement.estReserve ? 'Oui' : 'Non'}</p>
-            {evenement.nbPlace === 0 ? (
-              <button className="disabled-button">Événement complet</button>
+            {evenement.nbPlace === 0 || evenement.estReserve ? (
+              <button className="disabled-button" disabled>Événement complet ou réservé aux membres</button>
             ) : (
               <>
                 <button className="subscribe-button" onClick={() => handleSignUpClick(evenement.id)}>Inscription</button>
-                <button className="unsubscribe-button" onClick={() => handleUnsubscribeClick(evenement.id)}>Désinscription</button>
+                {!evenement.estReserve && (
+                  <button className="unsubscribe-button" onClick={() => handleUnsubscribeClick(evenement.id)}>Désinscription</button>
+                )}
               </>
             )}
             {selectedEventId === evenement.id && (
               <form onSubmit={handleFormSubmit} className="signup-form">
+                <input
+                  type="text"
+                  value={nom}
+                  onChange={handleNomChange}
+                  placeholder="Entrez votre nom"
+                  required
+                />
+                <input
+                  type="text"
+                  value={prenom}
+                  onChange={handlePrenomChange}
+                  placeholder="Entrez votre prénom"
+                  required
+                />
+                <input
+                  type="number"
+                  value={age}
+                  onChange={handleAgeChange}
+                  placeholder="Entrez votre âge"
+                  required
+                />
+                <input
+                  type="text"
+                  value={profession}
+                  onChange={handleProfessionChange}
+                  placeholder="Entrez votre profession"
+                  required
+                />
                 <input
                   type="email"
                   value={email}
@@ -238,15 +330,13 @@ const EventList: React.FC = () => {
                   placeholder="Entrez votre email"
                   required
                 />
-                {evenement.estReserve && (
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={handlePhoneChange}
-                    placeholder="Entrez votre numéro de téléphone"
-                    required
-                  />
-                )}
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={handlePhoneChange}
+                  placeholder="Entrez votre numéro de téléphone"
+                  required
+                />
                 <button type="submit" className="submit-button">Valider</button>
               </form>
             )}
