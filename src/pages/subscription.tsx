@@ -135,7 +135,9 @@ const Adherer: React.FC = () => {
         estBanie: false
       });
 
-      if(adherent.data.error){
+      console.log(adherent)
+
+      if(adherent.data.error === "L'adresse email est déjà utilisée."){
         setIsLoading(false);
         setError("Mail déjà utilisé");
         return;
