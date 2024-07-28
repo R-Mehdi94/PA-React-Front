@@ -424,7 +424,7 @@ export const createAdherent= async (adherent:CreateAdherent) => {
       return response;
   } catch (error) {
       console.error('Error creating donation', error);
-      throw error;
+      return null;
   }
 };
 

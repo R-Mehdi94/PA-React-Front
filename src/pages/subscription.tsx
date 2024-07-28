@@ -137,7 +137,7 @@ const Adherer: React.FC = () => {
 
       console.log(adherent)
 
-      if(adherent.data.error === "L'adresse email est déjà utilisée."){
+      if(adherent===null){
         setIsLoading(false);
         setError("Mail déjà utilisé");
         return;
