@@ -52,6 +52,13 @@ const DemandeForm: React.FC = () => {
     setResponseMessage(null);
     e.preventDefault();
 
+    //@ts-ignore
+    if (demande.age < 16) {
+      setIsLoading(false);
+      setResponseMessage('L\'âge minimum requis est de 16 ans.');
+      return;
+    }
+
     let visiteur;
     const verifVisiteurConst = {
       email: demande.email
@@ -68,7 +75,7 @@ const DemandeForm: React.FC = () => {
         // @ts-ignore
         visiteur = await getVisiteurParMail(demande.email);
         // @ts-ignore
-        if (visiteur.Visiteurs[0].isBanie) {
+        if(visiteur.Visiteurs[0].estBanie) {
           setIsLoading(false);
           setResponseMessage('Vous êtes banni');
           return;

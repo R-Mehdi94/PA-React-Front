@@ -79,6 +79,12 @@ const EventList: React.FC = () => {
     setConfirmationMessage(null);
     e.preventDefault();
 
+    if (age < 16) {
+      setIsLoading(false);
+      setError("L'âge minimum requis est de 16 ans.");
+      return;
+    }
+
     if (!validatePhone(phone)) {
       setIsLoading(false);
       setError('Le numéro de téléphone doit contenir exactement 10 caractères.');
@@ -97,7 +103,7 @@ const EventList: React.FC = () => {
       } else {
         visiteur = await getVisiteurParMail(email);
         // @ts-ignore
-        if(visiteur.Visiteurs[0].isBanie){
+        if(visiteur.Visiteurs[0].estBanie){
           setIsLoading(false);
           setError('Vous êtes banni');
           return;
@@ -197,7 +203,7 @@ const EventList: React.FC = () => {
         visiteur = await getVisiteurParMail(unsubscribeEmail);
         // @ts-ignore
 
-        if(visiteur.Visiteurs[0].isBanie){
+        if(visiteur.Visiteurs[0].estBanie){
           setIsLoading(false);
           setError('Vous êtes banni');
           return;

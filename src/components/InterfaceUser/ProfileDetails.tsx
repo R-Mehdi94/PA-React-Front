@@ -18,15 +18,12 @@ const ProfileDetails: React.FC = () => {
 
   const handleSave = async () => {
     setIsLoading(true);
-
     const updateAdherentResponse = await updateAdherent(user);
-
     if (updateAdherentResponse === null) {
       alert("Modification échouée, veuillez vérifier votre saisie");
       setIsLoading(false);
       return;
     }
-
     localStorage.setItem("user", JSON.stringify(user));
     setIsLoading(false);
   };
@@ -36,16 +33,13 @@ const ProfileDetails: React.FC = () => {
       alert("Les nouveaux mots de passe ne correspondent pas");
       return;
     }
-
     setIsLoading(true);
     const changePasswordResponse = await changePassword(user.adherent.id, oldPassword, newPassword, storedUser.token);
-    //@ts-ignore
     if (changePasswordResponse === null) {
       alert("Changement de mot de passe échoué, veuillez vérifier votre saisie");
       setIsLoading(false);
       return;
     }
-
     alert("Mot de passe changé avec succès");
     setShowChangePassword(false);
     setIsLoading(false);
@@ -53,20 +47,18 @@ const ProfileDetails: React.FC = () => {
 
   const handleDeleteAccount = async () => {
     setIsLoading(true);
-    setShowDeleteConfirmation(false)
-    const logoutResponse = logout({id :user.adherent.id, token : user.token});
+    setShowDeleteConfirmation(false);
+    const logoutResponse = logout({ id: user.adherent.id, token: user.token });
     if (!logoutResponse) {
       alert("Logout failed");
       return;
     }
     const deleteAccountResponse = await deleteAccount(user.adherent.id, storedUser.token);
-
     if (deleteAccountResponse === null) {
       alert("La suppression du compte a échoué, veuillez réessayer");
       setIsLoading(false);
       return;
     }
-
     alert("Compte supprimé avec succès");
     localStorage.removeItem("user");
     setIsLoading(false);
@@ -100,7 +92,7 @@ const ProfileDetails: React.FC = () => {
       <ProfilNavigation />
       <div className="profile-details">
         <h2>Profil</h2>
-        <form>
+        <form className="profile-form">
           <div className="form-group">
             <label>Nom: </label>
             <input
@@ -171,13 +163,13 @@ const ProfileDetails: React.FC = () => {
               className="form-control"
             />
           </div>
-          <button type="button" onClick={handleSave} className="btn-save">Sauvegarder</button>
+          <button type="button" onClick={handleSave} className="btn btn-save">Sauvegarder</button>
         </form>
         
         <button
           type="button"
           onClick={() => setShowChangePassword(!showChangePassword)}
-          className="btn-change-password">
+          className="btn btn-change-password">
           Changer de mot de passe
         </button>
         {showChangePassword && (
@@ -209,13 +201,13 @@ const ProfileDetails: React.FC = () => {
                 className="form-control"
               />
             </div>
-            <button type="button" onClick={handleChangePassword} className="btn-save">Changer le mot de passe</button>
+            <button type="button" onClick={handleChangePassword} className="btn btn-save">Changer le mot de passe</button>
           </form>
         )}
         <button
           type="button"
           onClick={() => setShowDeleteConfirmation(true)}
-          className="btn-delete-account">
+          className="btn btn-delete-account">
           Supprimer mon compte
         </button>
         <Modal
@@ -226,8 +218,8 @@ const ProfileDetails: React.FC = () => {
         >
           <h2>Confirmation de suppression</h2>
           <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
-          <button type="button" onClick={handleDeleteAccount} className="btn-save">Oui, supprimer</button>
-          <button type="button" onClick={() => setShowDeleteConfirmation(false)} className="btn-cancel">Annuler</button>
+          <button type="button" onClick={handleDeleteAccount} className="btn btn-save">Oui, supprimer</button>
+          <button type="button" onClick={() => setShowDeleteConfirmation(false)} className="btn btn-cancel">Annuler</button>
         </Modal>
       </div>
     </div>

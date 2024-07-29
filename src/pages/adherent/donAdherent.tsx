@@ -14,7 +14,11 @@ const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
   const handleSubmit = async (event: React.FormEvent) => {
     setIsLoading(true);
-
+    if(storedUser.adherent.estBanie){
+      setIsLoading(false);
+      setError('Votre compte est banni');
+      return;
+    }
     setError(null);
     setSuccess(null);
     event.preventDefault();

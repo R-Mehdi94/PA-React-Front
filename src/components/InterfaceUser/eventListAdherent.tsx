@@ -45,6 +45,30 @@ const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
     e.preventDefault();
 
 
+    if(storedUser.adherent.estBanie){
+      setIsLoading(false);
+      setError('Votre compte est banni');
+      return;
+    }
+
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    
+    let cotisationExpiree = true;
+    
+    storedUser.adherent.cotisations.forEach((cotisation: any) => {
+      console.log(cotisation.date);
+      if (new Date(cotisation.date) > oneYearAgo) {
+        cotisationExpiree = false; 
+      }
+    });
+    
+    if (cotisationExpiree) {
+      setIsLoading(false);
+      setError('Votre cotisation est expirée');
+      return;
+    }
+    
 
     const inscription = {
     adherent: storedUser.adherent.id,

@@ -24,6 +24,7 @@ import PrivateRoute from './routeProtected/PrivateRoute';
 import DemandeAdherent from './pages/adherent/demandeAdherent';
 import DonAdherent from './pages/adherent/donAdherent';
 import EvenementAdherent from './pages/adherent/evenementAdherent';
+import MyProjects from './components/InterfaceUser/MyProject';
 
 
 const App: FunctionComponent = () => {
@@ -59,6 +60,7 @@ const App: FunctionComponent = () => {
                   <Route path="/profil/subscriptions" element={<MySubscriptions />} />
                   <Route path="/profil/sponsor" element={<MySponsor />} />
                   <Route path="/profil/requests" element={<MyRequest />} />
+                  <Route path="/profil/projects" element={<MyProjects />} />
                 </Route>
 
                 <Route path="*" element={<PageNotFound />} />

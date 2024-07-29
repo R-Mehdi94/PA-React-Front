@@ -21,6 +21,8 @@ const ProfilNavigation: React.FC = () => {
           <li><button onClick={() => handleNavigation("/profil/subscriptions")}>Mes cotisations</button></li>
           <li><button onClick={() => handleNavigation("/profil/sponsor")}>Mon parrain</button></li>
           <li><button onClick={() => handleNavigation("/profil/requests")}>Mes demandes</button></li>
+          <li><button onClick={() => handleNavigation("/profil/projects")}>Mes Projets</button></li>
+
 
         </ul>
       </div>

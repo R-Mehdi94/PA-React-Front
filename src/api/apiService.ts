@@ -7,11 +7,21 @@ export enum UserRole {
   Utilisateur = "Utilisateur"
 }
 
+
+
 export enum typeCotisation {
   cadre = "cadre",
   etudiant = "etudiant",
   chefEntreprise = "chefEntreprise",
   autre = "autre"
+}
+
+export interface AideProjet{
+  id:number
+  titre: string
+  descriptionProjet: string
+  budget: number
+  deadline: Date
 }
 
 export interface Cotisation {
@@ -194,6 +204,16 @@ export interface VerifEmail {
   evenement: number
 }
 
+export interface VerifChangementMdp {
+  email: string
+  numTel: string
+}
+export interface ForgotMdp {
+  email: string
+  motDePasse: string
+}
+
+
 export interface VerifVisiteur {
   email: string
 }
@@ -241,6 +261,16 @@ export const getUsers = async (): Promise<GetUsersResponse> => {
 export const getDemandes = async (id:number): Promise<any> => {
   try {
     const response = await api.get(`/demandes?adherent=${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data', error);
+    throw error;
+  }
+};
+
+export const getProjects = async (id:number): Promise<any> => {
+  try {
+    const response = await api.get(`/aide-projets?adherent=${id}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching data', error);
@@ -519,6 +549,16 @@ export const sendEmailDon = async (emailDon: EmailDon): Promise<EmailDon> => {
   }
 };
 
+export const sendMdpOublie = async (forgotMdp: ForgotMdp): Promise<EmailDon> => {
+  try {
+      const response = await n8n.post('/1b650191-3165-4744-87fc-267e1d44f0aa', forgotMdp);
+      return response.data;
+  } catch (error) {
+      console.error('Error submitting email donation', error);
+      throw error;
+  }
+};
+
 export const sendEmailAdherer = async (emailAdherer: EmailAdherer): Promise<EmailAdherer> => {
   try {
       const response = await n8n.post('/a4084024-bdac-4826-abf0-aac5e3bdc602', emailAdherer);
@@ -595,6 +635,26 @@ export const verifEmailAdherent = async (verifEmail: VerifEmail): Promise<VerifE
 export const verifEmailVisiteur = async (verifEmail: VerifEmail): Promise<VerifEmail> => {
   try {
       const response = await api.post('/verifEmailVisiteur', verifEmail);
+      return response.data;
+  } catch (error) {
+      console.error('Error verifEmail', error);
+      throw error;
+  }
+};
+
+export const verifChangementMdp = async (verifChangementMdp: VerifChangementMdp): Promise<VerifEmail> => {
+  try {
+      const response = await api.post('/verifAdherentMdp', verifChangementMdp);
+      return response.data;
+  } catch (error) {
+      console.error('Error verifEmail', error);
+      throw error;
+  }
+};
+
+export const forgotPassword = async (forgotMdp: ForgotMdp): Promise<VerifEmail> => {
+  try {
+      const response = await api.patch('/adherentsMdp', forgotMdp);
       return response.data;
   } catch (error) {
       console.error('Error verifEmail', error);

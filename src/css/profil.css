@@ -8,58 +8,107 @@
   background-color: #fff;
 }
 
-.profile-details form div {
-  margin-bottom: 15px; /* Ajoute de l'espace entre les champs du formulaire */
-}
-
-.profile-details label {
-  display: block; /* Assure que les labels occupent toute la largeur disponible */
-  margin-bottom: 5px; /* Ajoute de l'espace sous les labels */
-}
-
-.profile-details input {
-  width: 100%; /* Assure que les champs de texte occupent toute la largeur disponible */
-  padding: 10px; /* Ajoute du padding à l'intérieur des champs de texte */
-  box-sizing: border-box; /* Inclut le padding et les bordures dans la largeur totale */
-  border: 1px solid #ccc; /* Ajoute une bordure légère */
-  border-radius: 4px; /* Ajoute des coins arrondis */
-}
-
-.sidebar {
-  width: 200px;
-  background-color: #f4f4f4;
-  height: 100vh; /* Assure que la sidebar prend toute la hauteur de l'écran */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centre verticalement le contenu */
+.profile-form, .change-password-form {
+  background: white;
   padding: 20px;
-}
-
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar li {
-  margin-bottom: 20px; /* Espace entre les éléments */
-  text-align: center; /* Centre le texte horizontalement */
-}
-
-.sidebar button {
-  background: none;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  color: #333;
-  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.sidebar button:hover {
-  background-color: #e0e0e0;
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-save {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-change-password, .btn-delete-account {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.square {
+  width: 50px;
+  height: 50px;
+  background-color: #333;
+  margin: 5px;
+}
+
+.square-1 {
+  animation: bounce 1s infinite;
+}
+
+.square-2 {
+  animation: bounce 1s infinite 0.5s;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-50px);
+  }
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  max-width: 500px;
+  width: 100%;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
 }
 
 .profile-container {
@@ -294,3 +343,38 @@
 }
 
 
+/* profil.css */
+
+.profile-container {
+  display: flex;
+}
+
+.profile-details {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.project-card {
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.project-card h3 {
+  margin-top: 0;
+}
+
+.project-card p {
+  margin: 5px 0;
+}

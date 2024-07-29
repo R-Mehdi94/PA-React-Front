@@ -37,6 +37,11 @@ const DemandeFormAdherent: React.FC = () => {
   
     const handleSubmit = async (e: React.FormEvent) => {
       setIsLoading(true);
+      if(storedUser.adherent.estBanie){
+        setIsLoading(false);
+        alert('Votre compte est banni');
+        return;
+      }
       setResponseMessage(null);
       e.preventDefault();
 

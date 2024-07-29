@@ -12,7 +12,6 @@ const MyDonations: React.FC = () => {
     const fetchTransactions = async () => {
       try {
         const response = await getDonsUser(storedUser.adherent.id);
-        console.log(response.Transactions);
         if (response && response.Transactions) {
           setTransactions(response.Transactions);
         } else {

@@ -45,6 +45,11 @@ const MyEvents: React.FC = () => {
   };
 
   const handleUnsubscribe = async () => {
+    if(storedUser.adherent.estBanie){
+      setIsLoading(false);
+      alert('Votre compte est banni');
+      return;
+    }
     closeModal();
     setIsLoading(true);
     if (eventToUnsubscribe) {

@@ -43,6 +43,11 @@ const PaiementAdherent: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     setIsLoading(true);
+    if(storedUser.adherent.estBanie){
+      setIsLoading(false);
+      setError('Votre compte est banni');
+      return;
+    }
     setError(null);
     setSuccess(null);
     event.preventDefault();
@@ -79,6 +84,8 @@ const PaiementAdherent: React.FC = () => {
         adherent: storedUser.adherent.id,
       };
 
+      console.log()
+
       const response = await createTransaction(transaction);
       const clientSecret = response.clientSecret;
 
@@ -93,6 +100,9 @@ const PaiementAdherent: React.FC = () => {
         //await sendEmailDon(emailDon);
         // @ts-ignore
         await createCotisation({type:cotisationType, Ajours:true, adherent: storedUser.adherent.id});
+        storedUser.adherent.cotisations.push({id: storedUser.adherent.cotisations[storedUser.adherent.cotisations.length-1], type:cotisationType, Ajours:true, date: new Date().toISOString()});
+        console.log(storedUser.adherent.cotisations)
+        localStorage.setItem("user", JSON.stringify(storedUser));
         setIsLoading(false);
         setSuccess("Cotisation réussie !");
         return;
